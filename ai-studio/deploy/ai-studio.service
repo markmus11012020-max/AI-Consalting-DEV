@@ -1,0 +1,29 @@
+[Unit]
+Description=AI.STUDIO landing (Next.js standalone)
+Documentation=https://nextjs.org/docs
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/ai-studio
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=HOSTNAME=127.0.0.1
+EnvironmentFile=/opt/ai-studio/.env
+ExecStart=/usr/bin/node /opt/ai-studio/server.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ai-studio
+
+# Ограничения безопасности
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/ai-studio/.next/cache
+
+[Install]
+WantedBy=multi-user.target
