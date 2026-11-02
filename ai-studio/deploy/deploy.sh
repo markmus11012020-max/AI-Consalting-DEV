@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Деплой AI.STUDIO на Ubuntu VM в Yandex Cloud.
+# Деплой Aillix на Ubuntu VM.
 # Использование: ./deploy/deploy.sh [путь_к_проекту]
 set -euo pipefail
 
-PROJECT_DIR="${1:-/opt/ai-studio}"
+PROJECT_DIR="${1:-/opt/aillix}"
 cd "$PROJECT_DIR"
 
 echo "→ Обновление кода"

@@ -2,9 +2,8 @@
 
 import { headers } from "next/headers";
 
+import { deliverLead } from "@/lib/lead/deliver";
 import { leadSchema, toFieldErrors } from "@/lib/lead/schema";
-import { sendToTelegram } from "@/lib/lead/telegram";
-import { LeadTransportError } from "@/lib/lead/types";
 import type { LeadActionResult } from "@/types";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
@@ -84,7 +83,7 @@ export async function sendLead(input: unknown): Promise<LeadActionResult> {
   const lead = parsed.data;
 
   try {
-    await sendToTelegram({
+    const report = await deliverLead({
       name: lead.name,
       contact: lead.contact,
       message: lead.message,
@@ -93,23 +92,24 @@ export async function sendLead(input: unknown): Promise<LeadActionResult> {
       source: "site",
     });
 
-    return { ok: true, delivered: true };
-  } catch (error) {
-    const code =
-      error instanceof LeadTransportError ? error.code : "UNKNOWN_ERROR";
-
-    console.error("[lead] delivery failed", code, error);
-
-    // Локальная разработка без настроенного бота: заявка логируется,
-    // пользователь видит успешный сценарий.
-    if (
-      code === "TELEGRAM_NOT_CONFIGURED" &&
-      process.env.NODE_ENV !== "production"
-    ) {
-      console.info("[lead] development fallback, payload:", lead);
-      return { ok: true, delivered: false };
+    if (report.delivered > 0) {
+      return { ok: true, delivered: true, leadId: report.leadId };
     }
 
+    // Локальная разработка без настроенных каналов: заявка пишется в лог.
+    if (process.env.NODE_ENV !== "production") {
+      console.info("[lead] development fallback, payload:", lead);
+      return { ok: true, delivered: false, leadId: report.leadId };
+    }
+
+    return {
+      ok: false,
+      leadId: report.leadId,
+      formError:
+        "Не удалось отправить заявку ни в один канал. Напишите в Telegram — ответим быстрее.",
+    };
+  } catch (error) {
+    console.error("[lead] delivery failed", error);
     return {
       ok: false,
       formError:

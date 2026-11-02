@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "AI.STUDIO — Generative AI for real business";
+export const alt = "Aillix — ИИ-агенты и торговые боты для бизнеса";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,7 +14,7 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#030712",
+          background: "#070B14",
           padding: "72px",
           color: "#ffffff",
           fontFamily: "sans-serif",
@@ -52,7 +52,7 @@ export default function OpengraphImage() {
               width: "52px",
               height: "52px",
               borderRadius: "14px",
-              background: "linear-gradient(135deg, #4f46e5, #a855f7)",
+              background: "linear-gradient(135deg, #4f46e5, #2dd4bf)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -61,7 +61,7 @@ export default function OpengraphImage() {
               letterSpacing: "0.5px",
             }}
           >
-            AI
+            A
           </div>
           <div
             style={{
@@ -71,9 +71,9 @@ export default function OpengraphImage() {
               fontWeight: 700,
             }}
           >
-            <span>AI</span>
-            <span style={{ color: "#6b7280" }}>.</span>
-            <span>STUDIO</span>
+            <span>Aillix</span>
+            
+            
           </div>
         </div>
 
@@ -88,8 +88,8 @@ export default function OpengraphImage() {
               flexDirection: "column",
             }}
           >
-            <span>Generative AI</span>
-            <span style={{ color: "#a5b4fc" }}>for real business</span>
+            <span>ИИ-агенты и торговые боты</span>
+            <span style={{ color: "#a5b4fc" }}>которые работают в проде</span>
           </div>
           <div
             style={{
@@ -100,13 +100,13 @@ export default function OpengraphImage() {
               gap: "24px",
             }}
           >
-            <span>Agents</span>
+            <span>Агенты</span>
             <span style={{ color: "#4f46e5" }}>•</span>
-            <span>RAG systems</span>
+            <span>RAG-системы</span>
             <span style={{ color: "#4f46e5" }}>•</span>
             <span>Live MVP</span>
             <span style={{ color: "#4f46e5" }}>•</span>
-            <span>Compliance</span>
+            <span>Комплаенс</span>
           </div>
         </div>
 
@@ -121,8 +121,8 @@ export default function OpengraphImage() {
             color: "#64748b",
           }}
         >
-          <span>ai-studio</span>
-          <span>Python · FastAPI · Java 17 · Docker · Yandex Cloud</span>
+          <span>aillix.ru</span>
+          <span>Python · FastAPI · Java 17 · Docker · Hyperliquid</span>
         </div>
       </div>
     ),

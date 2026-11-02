@@ -53,11 +53,41 @@ export interface ProjectCase {
   title: string;
   category: string;
   summary: string;
+  result?: string;
   highlights: string[];
   stack: string[];
   flow: string[];
   icon: IconName;
-  accent: "indigo" | "purple";
+  accent: "indigo" | "purple" | "teal" | "amber";
+  href?: string;
+}
+
+export interface ServiceOffer {
+  id: string;
+  title: string;
+  icon: IconName;
+  summary: string;
+  outcome: string;
+  price: string;
+  weeks: string;
+  highlights: string[];
+  accent: "indigo" | "teal" | "amber" | "rose";
+}
+
+export interface PainPoint {
+  id: string;
+  title: string;
+  description: string;
+  result: string;
+  icon: IconName;
+}
+
+export interface StackGroup {
+  id: string;
+  title: string;
+  icon: IconName;
+  summary: string;
+  items: string[];
 }
 
 export interface ProcessStep {
@@ -127,6 +157,8 @@ export interface LeadPayload {
   estimate?: string;
   utm?: string;
   source?: string;
+  page?: string;
+  captchaToken?: string;
 }
 
 export interface LeadActionResult {
@@ -134,4 +166,5 @@ export interface LeadActionResult {
   formError?: string;
   fieldErrors?: Partial<Record<LeadField, string>>;
   delivered?: boolean;
+  leadId?: string;
 }

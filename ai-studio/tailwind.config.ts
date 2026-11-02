@@ -14,43 +14,47 @@ const config: Config = {
     },
     extend: {
       colors: {
-        background: "#030712",
-        foreground: "#f4f4f5",
+        background: "rgb(var(--background) / <alpha-value>)",
+        foreground: "rgb(var(--foreground) / <alpha-value>)",
         surface: {
-          DEFAULT: "#090d16",
-          elevated: "#0d1424",
+          DEFAULT: "rgb(var(--surface) / <alpha-value>)",
+          elevated: "rgb(var(--surface-elevated) / <alpha-value>)",
         },
-        border: "rgba(255, 255, 255, 0.08)",
-        input: "rgba(255, 255, 255, 0.10)",
-        ring: "#6366f1",
+        border: "rgb(var(--border) / <alpha-value>)",
+        input: "rgb(var(--input) / <alpha-value>)",
+        ring: "rgb(var(--ring) / <alpha-value>)",
         primary: {
-          DEFAULT: "#4f46e5",
-          foreground: "#ffffff",
-          soft: "#6366f1",
+          DEFAULT: "rgb(var(--primary) / <alpha-value>)",
+          foreground: "rgb(var(--primary-foreground) / <alpha-value>)",
+          soft: "rgb(var(--primary-soft) / <alpha-value>)",
         },
         accent: {
-          DEFAULT: "#a855f7",
-          foreground: "#ffffff",
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          foreground: "rgb(var(--accent-foreground) / <alpha-value>)",
         },
         secondary: {
-          DEFAULT: "#111827",
-          foreground: "#f4f4f5",
+          DEFAULT: "rgb(var(--secondary) / <alpha-value>)",
+          foreground: "rgb(var(--secondary-foreground) / <alpha-value>)",
         },
         muted: {
-          DEFAULT: "#111827",
-          foreground: "#a1a1aa",
+          DEFAULT: "rgb(var(--muted) / <alpha-value>)",
+          foreground: "rgb(var(--muted-foreground) / <alpha-value>)",
+        },
+        success: {
+          DEFAULT: "rgb(var(--success) / <alpha-value>)",
+          foreground: "rgb(var(--success-foreground) / <alpha-value>)",
         },
         destructive: {
-          DEFAULT: "#ef4444",
-          foreground: "#ffffff",
+          DEFAULT: "rgb(var(--destructive) / <alpha-value>)",
+          foreground: "rgb(var(--destructive-foreground) / <alpha-value>)",
         },
         card: {
-          DEFAULT: "#090d16",
-          foreground: "#f4f4f5",
+          DEFAULT: "rgb(var(--card) / <alpha-value>)",
+          foreground: "rgb(var(--card-foreground) / <alpha-value>)",
         },
         popover: {
-          DEFAULT: "#090d16",
-          foreground: "#f4f4f5",
+          DEFAULT: "rgb(var(--popover) / <alpha-value>)",
+          foreground: "rgb(var(--popover-foreground) / <alpha-value>)",
         },
       },
       fontFamily: {
@@ -65,9 +69,10 @@ const config: Config = {
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        // Базовый кегль поднят для читаемости: 13px вместо 12px, 15px вместо 14px.
-        xs: ["0.8125rem", { lineHeight: "1.25rem" }],
-        sm: ["0.9375rem", { lineHeight: "1.5rem" }],
+        // Базовый кегль поднят для читаемости: 14px вместо 12px, 16px вместо 14px.
+        xs: ["0.875rem", { lineHeight: "1.4rem" }],
+        sm: ["1rem", { lineHeight: "1.6rem" }],
+        base: ["1.0625rem", { lineHeight: "1.7rem" }],
         "display-sm": ["2.5rem", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
         "display-md": ["3rem", { lineHeight: "1.08", letterSpacing: "-0.025em" }],
         "display-lg": ["3.75rem", { lineHeight: "1.05", letterSpacing: "-0.03em" }],
@@ -80,13 +85,13 @@ const config: Config = {
         "2xl": "1.25rem",
       },
       boxShadow: {
-        glow: "0 0 60px -12px rgba(79, 70, 229, 0.45)",
-        "glow-sm": "0 0 32px -10px rgba(168, 85, 247, 0.45)",
-        card: "0 24px 60px -30px rgba(0, 0, 0, 0.9)",
+        glow: "var(--shadow-glow)",
+        "glow-sm": "var(--shadow-glow-sm)",
+        card: "var(--shadow-card)",
       },
       backgroundImage: {
         "grid-faint":
-          "linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px)",
+          "linear-gradient(to right, var(--grid-line) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px)",
       },
       backgroundSize: {
         "grid-64": "64px 64px",

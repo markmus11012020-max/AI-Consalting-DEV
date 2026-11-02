@@ -146,15 +146,15 @@ export function LeadForm() {
         ref={successRef}
         tabIndex={-1}
         role="status"
-        className="glow-card flex h-full flex-col items-start justify-center rounded-2xl border border-emerald-400/20 p-7 outline-none sm:p-8"
+        className="glow-card flex h-full flex-col items-start justify-center rounded-2xl border border-success/25 p-7 outline-none sm:p-8"
       >
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-400/30 bg-emerald-500/10">
-          <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-success/25 bg-success/10">
+          <CheckCircle2 className="h-6 w-6 text-success" />
         </span>
-        <h3 className="mt-5 text-xl font-semibold text-white">
+        <h3 className="mt-5 text-xl font-semibold text-foreground">
           Заявка отправлена
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-slate-400">
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
           Ответим в течение рабочего дня. Если задача срочная — напишите в
           Telegram, так быстрее.
         </p>
@@ -170,6 +170,16 @@ export function LeadForm() {
               {SITE.contacts.telegram}
             </a>
           </Button>
+          <Button asChild variant="ghost">
+            <a
+              href={SITE.contacts.telegramSalesUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <Send className="h-4 w-4" />
+              {SITE.contacts.telegramSales}
+            </a>
+          </Button>
           <Button variant="ghost" onClick={() => setStatus("idle")}>
             Отправить ещё одну
           </Button>
@@ -182,20 +192,20 @@ export function LeadForm() {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="glow-card rounded-2xl border border-white/[0.08] p-5 shadow-card sm:p-7"
+      className="glow-card rounded-2xl border border-border p-5 shadow-card sm:p-7"
     >
       <div className="flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold text-white">Оставить заявку</h3>
-        <span className="text-[12.5px] text-slate-500">Ответ в течение дня</span>
+        <h3 className="text-lg font-semibold text-foreground">Оставить заявку</h3>
+        <span className="text-[12.5px] text-muted-foreground">Ответ в течение дня</span>
       </div>
 
       {estimateSummary ? (
-        <div className="mt-4 flex items-start gap-2 rounded-xl border border-indigo-400/25 bg-indigo-500/[0.07] p-3">
+        <div className="mt-4 flex items-start gap-2 rounded-xl border border-primary/25 bg-primary/10 p-3">
           <div className="min-w-0 flex-1">
-            <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-indigo-300">
+            <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-primary">
               Конфигурация из калькулятора
             </p>
-            <p className="mt-1 text-[13px] leading-relaxed text-slate-300">
+            <p className="mt-1 text-[13px] leading-relaxed text-foreground">
               {estimateSummary}
             </p>
           </div>
@@ -203,7 +213,7 @@ export function LeadForm() {
             type="button"
             onClick={clearEstimate}
             aria-label="Убрать конфигурацию из заявки"
-            className="rounded-md p-1 text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-300"
+            className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -213,7 +223,7 @@ export function LeadForm() {
       <div className="mt-5 space-y-4">
         <div>
           <Label htmlFor="lead-name">
-            Имя <span className="text-indigo-400">*</span>
+            Имя <span className="text-primary">*</span>
           </Label>
           <Input
             id="lead-name"
@@ -225,12 +235,12 @@ export function LeadForm() {
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "lead-name-error" : undefined}
             className={cn(
-              "mt-1.5 h-11 rounded-xl border-white/10 bg-white/[0.03] placeholder:text-slate-600 focus-visible:border-indigo-400/50 focus-visible:ring-indigo-500/30",
-              errors.name && "border-red-400/60 focus-visible:ring-red-500/30",
+              "mt-1.5 h-11 rounded-xl border-border bg-card placeholder:text-muted-foreground focus-visible:border-primary/25 focus-visible:ring-primary/30",
+              errors.name && "border-destructive/60 focus-visible:ring-destructive/30",
             )}
           />
           {errors.name ? (
-            <p id="lead-name-error" className="mt-1.5 text-[13px] text-red-400">
+            <p id="lead-name-error" className="mt-1.5 text-[13px] text-destructive">
               {errors.name}
             </p>
           ) : null}
@@ -238,7 +248,7 @@ export function LeadForm() {
 
         <div>
           <Label htmlFor="lead-contact">
-            Telegram или телефон <span className="text-indigo-400">*</span>
+            Telegram или телефон <span className="text-primary">*</span>
           </Label>
           <Input
             id="lead-contact"
@@ -252,19 +262,19 @@ export function LeadForm() {
               errors.contact ? "lead-contact-error" : "lead-contact-hint"
             }
             className={cn(
-              "mt-1.5 h-11 rounded-xl border-white/10 bg-white/[0.03] placeholder:text-slate-600 focus-visible:border-indigo-400/50 focus-visible:ring-indigo-500/30",
-              errors.contact && "border-red-400/60 focus-visible:ring-red-500/30",
+              "mt-1.5 h-11 rounded-xl border-border bg-card placeholder:text-muted-foreground focus-visible:border-primary/25 focus-visible:ring-primary/30",
+              errors.contact && "border-destructive/60 focus-visible:ring-destructive/30",
             )}
           />
           {errors.contact ? (
             <p
               id="lead-contact-error"
-              className="mt-1.5 text-[13px] text-red-400"
+              className="mt-1.5 text-[13px] text-destructive"
             >
               {errors.contact}
             </p>
           ) : (
-            <p id="lead-contact-hint" className="mt-1.5 text-[12.5px] text-slate-600">
+            <p id="lead-contact-hint" className="mt-1.5 text-[12.5px] text-muted-foreground">
               Никаких звонков «просто так» — только по вашей задаче.
             </p>
           )}
@@ -273,9 +283,9 @@ export function LeadForm() {
         <div>
           <div className="flex items-baseline justify-between gap-3">
             <Label htmlFor="lead-message">
-              Описание задачи <span className="text-indigo-400">*</span>
+              Описание задачи <span className="text-primary">*</span>
             </Label>
-            <span className="text-[12px] text-slate-600">
+            <span className="text-[12px] text-muted-foreground">
               {values.message.length}/2000
             </span>
           </div>
@@ -288,14 +298,14 @@ export function LeadForm() {
             aria-invalid={Boolean(errors.message)}
             aria-describedby={errors.message ? "lead-message-error" : undefined}
             className={cn(
-              "mt-1.5 min-h-[110px] rounded-xl border-white/10 bg-white/[0.03] placeholder:text-slate-600 focus-visible:border-indigo-400/50 focus-visible:ring-indigo-500/30",
-              errors.message && "border-red-400/60 focus-visible:ring-red-500/30",
+              "mt-1.5 min-h-[110px] rounded-xl border-border bg-card placeholder:text-muted-foreground focus-visible:border-primary/25 focus-visible:ring-primary/30",
+              errors.message && "border-destructive/60 focus-visible:ring-destructive/30",
             )}
           />
           {errors.message ? (
             <p
               id="lead-message-error"
-              className="mt-1.5 text-[13px] text-red-400"
+              className="mt-1.5 text-[13px] text-destructive"
             >
               {errors.message}
             </p>
@@ -335,12 +345,12 @@ export function LeadForm() {
           <div>
             <Label
               htmlFor="lead-consent"
-              className="cursor-pointer text-[13.5px] font-normal leading-relaxed text-slate-400"
+              className="cursor-pointer text-[13.5px] font-normal leading-relaxed text-muted-foreground"
             >
               Согласен на обработку персональных данных в соответствии с{" "}
               <Link
                 href="/privacy"
-                className="text-indigo-300 underline-offset-2 hover:underline"
+                className="text-primary underline-offset-2 hover:underline"
               >
                 политикой
               </Link>
@@ -349,7 +359,7 @@ export function LeadForm() {
             {errors.consent ? (
               <p
                 id="lead-consent-error"
-                className="mt-1 text-[13px] text-red-400"
+                className="mt-1 text-[13px] text-destructive"
               >
                 {errors.consent}
               </p>
@@ -360,7 +370,7 @@ export function LeadForm() {
         {formError ? (
           <p
             role="alert"
-            className="rounded-xl border border-red-400/25 bg-red-500/[0.07] px-3 py-2.5 text-[13.5px] text-red-300"
+            className="rounded-xl border border-destructive/25 bg-destructive/10 px-3 py-2.5 text-[13.5px] text-destructive"
           >
             {formError}
           </p>
@@ -385,7 +395,7 @@ export function LeadForm() {
           )}
         </Button>
 
-        <p className="text-center text-[12px] leading-relaxed text-slate-600">
+        <p className="text-center text-[12px] leading-relaxed text-muted-foreground">
           Отвечает команда компании. Данные не передаются третьим лицам и не
           используются для обучения моделей.
         </p>

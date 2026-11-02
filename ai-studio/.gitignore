@@ -13,6 +13,9 @@
 # testing
 /coverage
 
+# local lead storage (Docker volume)
+/data
+
 # next.js
 /.next/
 /out/

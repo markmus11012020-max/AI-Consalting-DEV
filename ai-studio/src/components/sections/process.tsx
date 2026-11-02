@@ -28,15 +28,15 @@ export function Process() {
         <div className="relative mt-12">
           <div
             aria-hidden="true"
-            className="absolute left-0 right-0 top-[46px] hidden h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent lg:block"
+            className="absolute left-0 right-0 top-[46px] hidden h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent lg:block"
           />
 
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {PROCESS.map((step, index) => (
               <Reveal key={step.id} delay={index * 0.07} className="h-full">
-                <div className="glow-card relative flex h-full flex-col rounded-2xl border border-white/[0.06] p-6">
+                <div className="glow-card relative flex h-full flex-col rounded-2xl border border-border p-6">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-2xl font-semibold text-white/15">
+                    <span className="font-mono text-2xl font-semibold text-foreground/15">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <Badge variant="accent" className="text-[12px]">
@@ -44,20 +44,20 @@ export function Process() {
                     </Badge>
                   </div>
 
-                  <h3 className="mt-4 text-[17px] font-semibold text-white">
+                  <h3 className="mt-4 text-[17px] font-semibold text-foreground">
                     {step.title}
                   </h3>
-                  <p className="mt-2 text-[14.5px] leading-relaxed text-slate-400">
+                  <p className="mt-2 text-[14.5px] leading-relaxed text-muted-foreground">
                     {step.description}
                   </p>
 
-                  <ul className="mt-auto space-y-1.5 border-t border-white/[0.06] pt-4">
+                  <ul className="mt-auto space-y-1.5 border-t border-border pt-4">
                     {step.deliverables.map((item) => (
                       <li
                         key={item}
-                        className="flex items-center gap-2 text-[13.5px] text-slate-400"
+                        className="flex items-center gap-2 text-[13.5px] text-muted-foreground"
                       >
-                        <Check className="h-3 w-3 shrink-0 text-emerald-400" strokeWidth={3} />
+                        <Check className="h-3 w-3 shrink-0 text-success" strokeWidth={3} />
                         {item}
                       </li>
                     ))}

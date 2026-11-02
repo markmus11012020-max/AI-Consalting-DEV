@@ -3,6 +3,8 @@ node_modules
 .git
 .env
 .env.local
+data
+coverage
 npm-debug.log*
 README.md
 deploy

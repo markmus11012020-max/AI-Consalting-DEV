@@ -4,14 +4,116 @@
 
 @layer base {
   :root {
-    --background: #030712;
-    --foreground: #f4f4f5;
-    --surface: #090d16;
-    --surface-elevated: #0d1424;
-    --indigo: #4f46e5;
-    --purple: #a855f7;
-    --muted-foreground: #a1a1aa;
+    --background: 247 248 252;
+    --foreground: 15 23 42;
+    --card: 255 255 255;
+    --card-foreground: 15 23 42;
+    --popover: 255 255 255;
+    --popover-foreground: 15 23 42;
+    --primary: 67 56 202;
+    --primary-foreground: 255 255 255;
+    --primary-soft: 79 70 229;
+    --secondary: 238 242 247;
+    --secondary-foreground: 15 23 42;
+    --muted: 238 242 247;
+    --muted-foreground: 71 85 105;
+    --accent: 13 148 136;
+    --accent-foreground: 255 255 255;
+    --success: 4 120 87;
+    --success-foreground: 255 255 255;
+    --destructive: 220 38 38;
+    --destructive-foreground: 255 255 255;
+    --border: 226 232 240;
+    --input: 203 213 225;
+    --ring: 67 56 202;
+    --surface: 255 255 255;
+    --surface-elevated: 241 245 249;
     --radius: 0.75rem;
+
+    --shadow-card: 0 18px 50px -28px rgba(15, 23, 42, 0.22);
+    --shadow-glow: 0 0 60px -20px rgba(67, 56, 202, 0.35);
+    --shadow-glow-sm: 0 0 32px -14px rgba(13, 148, 136, 0.3);
+    --shadow-glow-hover: 0 24px 60px -30px rgba(67, 56, 202, 0.3);
+
+    --gradient-text: linear-gradient(100deg, #4338ca 0%, #0d9488 55%, #0f172a 100%);
+    --radial-glow:
+      radial-gradient(circle 900px at 50% -160px, rgba(67, 56, 202, 0.12), transparent 65%),
+      radial-gradient(circle 640px at 88% 8%, rgba(13, 148, 136, 0.08), transparent 60%),
+      radial-gradient(circle 520px at 4% 32%, rgba(251, 146, 60, 0.06), transparent 60%);
+    --grid-line: rgba(15, 23, 42, 0.055);
+    --card-gradient: linear-gradient(to bottom right, #ffffff, #f8fafc);
+    --glow-border: linear-gradient(
+      135deg,
+      rgba(67, 56, 202, 0.25),
+      rgba(13, 148, 136, 0.12) 42%,
+      rgba(15, 23, 42, 0.04) 68%
+    );
+    --selection: rgba(67, 56, 202, 0.22);
+    --selection-foreground: #ffffff;
+    --scrollbar-track: #eef2f7;
+    --scrollbar-thumb: #cbd5e1;
+    --scrollbar-thumb-hover: #4338ca;
+    --autofill-bg: #ffffff;
+    --autofill-text: #0f172a;
+    color-scheme: light;
+  }
+
+  .dark {
+    --background: 7 11 20;
+    --foreground: 248 250 252;
+    --card: 13 21 38;
+    --card-foreground: 248 250 252;
+    --popover: 13 21 38;
+    --popover-foreground: 248 250 252;
+    --primary: 99 102 241;
+    --primary-foreground: 255 255 255;
+    --primary-soft: 129 140 248;
+    --secondary: 17 26 46;
+    --secondary-foreground: 248 250 252;
+    --muted: 17 26 46;
+    --muted-foreground: 168 179 199;
+    --accent: 45 212 191;
+    --accent-foreground: 4 47 46;
+    --success: 52 211 153;
+    --success-foreground: 5 46 27;
+    --destructive: 248 113 113;
+    --destructive-foreground: 69 10 10;
+    --border: 39 49 66;
+    --input: 51 65 85;
+    --ring: 129 140 248;
+    --surface: 13 21 38;
+    --surface-elevated: 17 26 46;
+
+    --shadow-card: 0 24px 60px -30px rgba(0, 0, 0, 0.9);
+    --shadow-glow: 0 0 60px -12px rgba(99, 102, 241, 0.45);
+    --shadow-glow-sm: 0 0 32px -10px rgba(45, 212, 191, 0.35);
+    --shadow-glow-hover: 0 24px 60px -30px rgba(79, 70, 229, 0.55);
+
+    --gradient-text: linear-gradient(100deg, #a5b4fc 0%, #2dd4bf 55%, #bef264 100%);
+    --radial-glow:
+      radial-gradient(circle 900px at 50% -160px, rgba(79, 70, 229, 0.26), transparent 65%),
+      radial-gradient(circle 640px at 88% 8%, rgba(45, 212, 191, 0.12), transparent 60%),
+      radial-gradient(circle 520px at 4% 32%, rgba(168, 85, 247, 0.08), transparent 60%);
+    --grid-line: rgba(255, 255, 255, 0.035);
+    --card-gradient: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+    --glow-border: linear-gradient(
+      135deg,
+      rgba(99, 102, 241, 0.42),
+      rgba(45, 212, 191, 0.18) 42%,
+      rgba(255, 255, 255, 0.02) 68%
+    );
+    --selection: rgba(99, 102, 241, 0.35);
+    --selection-foreground: #ffffff;
+    --scrollbar-track: #05080f;
+    --scrollbar-thumb: #1f2937;
+    --scrollbar-thumb-hover: rgba(99, 102, 241, 0.6);
+    --autofill-bg: #0b1120;
+    --autofill-text: #f8fafc;
+    color-scheme: dark;
   }
 
   * {
@@ -35,17 +137,17 @@
   }
 
   ::selection {
-    background: rgba(79, 70, 229, 0.35);
-    color: #ffffff;
+    background: var(--selection);
+    color: var(--selection-foreground);
   }
 
   :focus-visible {
-    outline: 2px solid rgba(99, 102, 241, 0.9);
+    outline: 2px solid rgb(var(--ring));
     outline-offset: 2px;
   }
 
   section[id] {
-    scroll-margin-top: 5.5rem;
+    scroll-margin-top: 6rem;
   }
 
   h1,
@@ -55,12 +157,11 @@
     @apply font-display text-balance;
   }
 
-  /* Тёмное автозаполнение полей (Chrome) */
   input:-webkit-autofill,
   textarea:-webkit-autofill {
-    -webkit-text-fill-color: #f4f4f5;
-    -webkit-box-shadow: 0 0 0 1000px #0b1120 inset;
-    caret-color: #f4f4f5;
+    -webkit-text-fill-color: var(--autofill-text);
+    -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg) inset;
+    caret-color: var(--autofill-text);
   }
 
   ::-webkit-scrollbar {
@@ -68,15 +169,15 @@
     height: 10px;
   }
   ::-webkit-scrollbar-track {
-    background: #05080f;
+    background: var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb {
-    background: #1f2937;
+    background: var(--scrollbar-thumb);
     border-radius: 8px;
-    border: 2px solid #05080f;
+    border: 2px solid var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(79, 70, 229, 0.6);
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
@@ -85,27 +186,24 @@
     text-wrap: balance;
   }
 
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
   .text-gradient {
-    background-image: linear-gradient(100deg, #818cf8 0%, #a855f7 55%, #d8b4fe 100%);
+    background-image: var(--gradient-text);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .bg-radial-glow {
-    background:
-      radial-gradient(circle 900px at 50% -160px, rgba(79, 70, 229, 0.28), transparent 65%),
-      radial-gradient(circle 640px at 88% 8%, rgba(168, 85, 247, 0.16), transparent 60%),
-      radial-gradient(circle 520px at 4% 32%, rgba(56, 189, 248, 0.08), transparent 60%);
+    background: var(--radial-glow);
   }
 
   .glow-card {
     position: relative;
-    background: linear-gradient(
-      to bottom right,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.012)
-    );
+    background: var(--card-gradient);
   }
 
   .glow-card::before {
@@ -114,12 +212,7 @@
     inset: 0;
     border-radius: inherit;
     padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(99, 102, 241, 0.42),
-      rgba(168, 85, 247, 0.18) 42%,
-      rgba(255, 255, 255, 0.02) 68%
-    );
+    background: var(--glow-border);
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
@@ -145,13 +238,13 @@
 
   .glow-card-hover:hover {
     transform: translateY(-4px);
-    box-shadow: 0 24px 60px -30px rgba(79, 70, 229, 0.55);
+    box-shadow: var(--shadow-glow-hover);
   }
 
   .bg-grid-faint {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 64px 64px;
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
     mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);

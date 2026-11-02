@@ -38,39 +38,39 @@ export function RadioOptions({
             value={option.id}
             id={`${name}-${option.id}`}
             className={cn(
-              "group flex w-full items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-3.5 text-left transition-all duration-300",
-              "hover:border-white/20 hover:bg-white/[0.04]",
-              "data-[state=checked]:border-indigo-400/50 data-[state=checked]:bg-indigo-500/[0.09] data-[state=checked]:shadow-[0_0_0_1px_rgba(99,102,241,0.18)]",
+              "group flex w-full items-center gap-3 rounded-xl border border-border bg-card p-3.5 text-left transition-all duration-300",
+              "hover:border-border hover:bg-card",
+              "data-[state=checked]:border-primary/25 data-[state=checked]:bg-primary/10 data-[state=checked]:shadow-[0_0_0_1px_rgba(99,102,241,0.18)]",
             )}
           >
             <span
               aria-hidden="true"
-              className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-white/25 transition-colors group-data-[state=checked]:border-indigo-400 group-data-[state=checked]:bg-indigo-500"
+              className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full border border-border transition-colors group-data-[state=checked]:border-primary group-data-[state=checked]:bg-primary"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-white opacity-0 transition-opacity group-data-[state=checked]:opacity-100" />
             </span>
 
             <span className="min-w-0 flex-1">
               <span className="flex flex-wrap items-center gap-1.5">
-                <span className="text-[15px] font-medium text-slate-100">
+                <span className="text-[15px] font-medium text-foreground">
                   {option.label}
                 </span>
                 {option.badge ? (
-                  <span className="rounded border border-purple-400/30 bg-purple-500/10 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-purple-300">
+                  <span className="rounded border border-accent/30 bg-accent/10 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-accent">
                     {option.badge}
                   </span>
                 ) : null}
               </span>
-              <span className="mt-0.5 block text-[13px] leading-snug text-slate-500">
+              <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">
                 {option.description}
               </span>
             </span>
 
             <span className="ml-2 shrink-0 text-right">
-              <span className="block whitespace-nowrap text-[14px] font-semibold text-slate-200">
+              <span className="block whitespace-nowrap text-[14px] font-semibold text-foreground">
                 {formatRub(option.price)}
               </span>
-              <span className="block whitespace-nowrap text-[12px] text-slate-500">
+              <span className="block whitespace-nowrap text-[12px] text-muted-foreground">
                 {pluralizeWeeks(option.weeks)}
               </span>
             </span>
@@ -106,8 +106,8 @@ export function IntegrationOptions({
               className={cn(
                 "group flex cursor-pointer items-center gap-3 rounded-xl border p-3.5 transition-all duration-300",
                 checked
-                  ? "border-indigo-400/50 bg-indigo-500/[0.09]"
-                  : "border-white/[0.07] bg-white/[0.02] hover:border-white/20 hover:bg-white/[0.04]",
+                  ? "border-primary/25 bg-primary/10"
+                  : "border-border bg-card hover:border-border hover:bg-card",
               )}
             >
               <input
@@ -120,9 +120,9 @@ export function IntegrationOptions({
                 aria-hidden="true"
                 className={cn(
                   "flex h-5 w-5 shrink-0 items-center justify-center rounded-[6px] border transition-colors",
-                  "border-white/20 bg-white/[0.03]",
-                  "peer-focus-visible:ring-2 peer-focus-visible:ring-indigo-400/70 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-[#030712]",
-                  checked && "border-indigo-400 bg-indigo-500 text-white",
+                  "border-border bg-card",
+                  "peer-focus-visible:ring-2 peer-focus-visible:ring-primary/30 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-background",
+                  checked && "border-primary bg-primary text-primary-foreground",
                 )}
               >
                 <Check
@@ -136,25 +136,25 @@ export function IntegrationOptions({
 
               <span className="min-w-0 flex-1">
                 <span className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-[15px] font-medium text-slate-100">
+                  <span className="text-[15px] font-medium text-foreground">
                     {option.label}
                   </span>
                   {option.badge ? (
-                    <span className="rounded border border-indigo-400/30 bg-indigo-500/10 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-indigo-300">
+                    <span className="rounded border border-primary/25 bg-primary/10 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-primary">
                       {option.badge}
                     </span>
                   ) : null}
                 </span>
-                <span className="mt-0.5 block text-[13px] leading-snug text-slate-500">
+                <span className="mt-0.5 block text-[13px] leading-snug text-muted-foreground">
                   {option.description}
                 </span>
               </span>
 
               <span className="ml-2 shrink-0 text-right">
-                <span className="block whitespace-nowrap text-[14px] font-semibold text-slate-200">
+                <span className="block whitespace-nowrap text-[14px] font-semibold text-foreground">
                   +{formatRub(option.price)}
                 </span>
-                <span className="block whitespace-nowrap text-[12px] text-slate-500">
+                <span className="block whitespace-nowrap text-[12px] text-muted-foreground">
                   {pluralizeWeeks(option.weeks)}
                 </span>
               </span>

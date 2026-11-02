@@ -121,7 +121,7 @@ export function Calculator() {
     <Section id="calculator" labelledBy="calculator-title">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-10 h-72 w-[46rem] -translate-x-1/2 rounded-full bg-purple-600/[0.07] blur-3xl"
+        className="pointer-events-none absolute left-1/2 top-10 h-72 w-[46rem] -translate-x-1/2 rounded-full bg-accent/[0.07] blur-3xl"
       />
 
       <Container className="relative">
@@ -148,14 +148,14 @@ export function Calculator() {
 
         <div className="mt-10 grid items-start gap-6 lg:grid-cols-[1.12fr_0.88fr]">
           <Reveal>
-            <div className="glow-card rounded-2xl border border-white/[0.07] p-5 sm:p-7">
+            <div className="glow-card rounded-2xl border border-border p-5 sm:p-7">
               <div className="space-y-7">
                 <div>
                   <div className="mb-3 flex items-baseline gap-2.5">
-                    <span className="font-mono text-[12.5px] text-indigo-400/80">
+                    <span className="font-mono text-[12.5px] text-primary/80">
                       01
                     </span>
-                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-slate-300">
+                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-foreground">
                       Платформа
                     </h3>
                   </div>
@@ -170,12 +170,12 @@ export function Calculator() {
                   />
                 </div>
 
-                <div className="border-t border-white/[0.06] pt-7">
+                <div className="border-t border-border pt-7">
                   <div className="mb-3 flex items-baseline gap-2.5">
-                    <span className="font-mono text-[12.5px] text-indigo-400/80">
+                    <span className="font-mono text-[12.5px] text-primary/80">
                       02
                     </span>
-                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-slate-300">
+                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-foreground">
                       Архитектура ИИ
                     </h3>
                   </div>
@@ -190,12 +190,12 @@ export function Calculator() {
                   />
                 </div>
 
-                <div className="border-t border-white/[0.06] pt-7">
+                <div className="border-t border-border pt-7">
                   <div className="mb-3 flex items-baseline gap-2.5">
-                    <span className="font-mono text-[12.5px] text-indigo-400/80">
+                    <span className="font-mono text-[12.5px] text-primary/80">
                       03
                     </span>
-                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-slate-300">
+                    <h3 className="text-[15px] font-semibold uppercase tracking-[0.12em] text-foreground">
                       Дополнительные интеграции
                     </h3>
                   </div>
@@ -205,7 +205,7 @@ export function Calculator() {
                     selected={selection.integrations}
                     onToggle={toggleIntegration}
                   />
-                  <p className="mt-3 text-[12.5px] text-slate-500">
+                  <p className="mt-3 text-[12.5px] text-muted-foreground">
                     Можно выбрать несколько. Интеграции распараллеливаются с
                     разработкой ядра, поэтому срок растёт не линейно.
                   </p>

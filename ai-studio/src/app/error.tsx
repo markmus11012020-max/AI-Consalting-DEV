@@ -21,10 +21,10 @@ export default function Error({
       <div aria-hidden="true" className="absolute inset-0 bg-radial-glow" />
 
       <div className="relative max-w-md text-center">
-        <h1 className="text-2xl font-semibold text-white sm:text-3xl">
+        <h1 className="text-2xl font-semibold text-foreground sm:text-3xl">
           Что-то пошло не так
         </h1>
-        <p className="mt-3 text-sm leading-relaxed text-slate-400">
+        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
           Ошибка уже записана в лог. Попробуйте обновить страницу — если не
           поможет, напишите в Telegram.
         </p>

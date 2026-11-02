@@ -42,7 +42,7 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
           transition={{ duration: 0.22, ease: "easeOut" }}
           className="lg:hidden"
         >
-          <div className="border-t border-white/[0.06] bg-[#050912]/95 backdrop-blur-xl">
+          <div className="border-t border-border bg-background/95 backdrop-blur-xl">
             <div className="mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-6xl flex-col px-5 py-6 sm:min-h-[calc(100dvh-4.5rem)] sm:px-8">
               <nav aria-label="Мобильная навигация">
                 <ul className="flex flex-col gap-1">
@@ -55,8 +55,8 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
                           onClick={onClose}
                           className={`flex items-center justify-between rounded-xl px-3 py-3 text-[16px] transition-colors ${
                             isActive
-                              ? "bg-indigo-500/10 text-white"
-                              : "text-slate-300 hover:bg-white/5 hover:text-white"
+                              ? "bg-primary/10 text-foreground"
+                              : "text-muted-foreground hover:bg-muted hover:text-foreground"
                           }`}
                         >
                           {item.label}
@@ -68,28 +68,37 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
                 </ul>
               </nav>
 
-              <div className="mt-5 grid gap-2 border-t border-white/[0.06] pt-5 text-sm text-slate-400">
+              <div className="mt-5 grid gap-2 border-t border-border pt-5 text-sm text-muted-foreground">
                 <a
                   href={SITE.contacts.emailHref}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-white"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-foreground"
                 >
-                  <Mail className="h-4 w-4 text-indigo-300" />
+                  <Mail className="h-4 w-4 text-primary" />
                   {SITE.contacts.email}
                 </a>
                 <a
                   href={SITE.contacts.telegramUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-white"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-foreground"
                 >
-                  <Send className="h-4 w-4 text-indigo-300" />
+                  <Send className="h-4 w-4 text-primary" />
                   {SITE.contacts.telegram}
                 </a>
                 <a
-                  href={SITE.contacts.phoneHref}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-white"
+                  href={SITE.contacts.telegramSalesUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-foreground"
                 >
-                  <Phone className="h-4 w-4 text-indigo-300" />
+                  <Send className="h-4 w-4 text-primary" />
+                  {SITE.contacts.telegramSales}
+                </a>
+                <a
+                  href={SITE.contacts.phoneHref}
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 hover:text-foreground"
+                >
+                  <Phone className="h-4 w-4 text-primary" />
                   {SITE.contacts.phone}
                 </a>
               </div>
@@ -97,7 +106,7 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
               <div className="mt-auto pt-8">
                 <Button asChild size="lg" className="w-full">
                   <a href="#contact" onClick={onClose}>
-                    Связаться
+                    Обсудить проект
                     <ArrowRight className="h-4 w-4" />
                   </a>
                 </Button>
@@ -105,7 +114,7 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
                 <button
                   type="button"
                   onClick={onClose}
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-full py-2 text-xs uppercase tracking-widest text-slate-500 hover:text-slate-300"
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-full py-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground"
                 >
                   <X className="h-3.5 w-3.5" />
                   Закрыть

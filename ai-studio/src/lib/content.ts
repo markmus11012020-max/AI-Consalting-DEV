@@ -1,8 +1,11 @@
 import type {
   ExpertiseGroup,
   FaqItem,
+  PainPoint,
   ProcessStep,
   ProjectCase,
+  ServiceOffer,
+  StackGroup,
   TrustItem,
   UseCase,
 } from "@/types";
@@ -29,6 +32,123 @@ export const HERO_PIPELINE = [
     meta: "Production",
   },
 ] as const;
+
+export const HERO_PROOF = [
+  { value: "6", label: "реализованных систем" },
+  { value: "180+", label: "автотестов в CI" },
+  { value: "2–4", label: "недели до MVP" },
+  { value: "RU", label: "контур и ФЗ-152" },
+] as const;
+
+export const PAIN_POINTS: PainPoint[] = [
+  {
+    id: "pilot",
+    title: "Пилот на ChatGPT есть, а в процесс не встроен",
+    description:
+      "Демо впечатляет, но без интеграций, прав доступа и мониторинга до продакшена не доходит.",
+    result: "Доведём до прод-сервиса, которым пользуются каждый день.",
+    icon: "workflow",
+  },
+  {
+    id: "support",
+    title: "Клиенты ждут ответа, а менеджеры тонут в рутине",
+    description:
+      "Заявки теряются между Telegram, почтой и CRM. Ночью и в выходные никто не отвечает.",
+    result: "Агент отвечает 24/7 и передаёт менеджеру готовый контекст.",
+    icon: "headset",
+  },
+  {
+    id: "data",
+    title: "Данные нельзя отдавать во внешнюю LLM",
+    description:
+      "Финансы, медицина и персональные данные требуют локального контура, маскирования и аудита.",
+    result: "Архитектура с PII-маскированием, доступом и журналом решений.",
+    icon: "shield",
+  },
+  {
+    id: "trading",
+    title: "Торговая стратегия живёт в Excel и ручных ордерах",
+    description:
+      "Идея есть, но нет бэктеста, риск-лимитов, исполнения и контроля просадки.",
+    result: "Бот с paper/testnet-прогоном, риск-менеджером и мониторингом.",
+    icon: "chart",
+  },
+];
+
+export const SERVICES: ServiceOffer[] = [
+  {
+    id: "agents",
+    title: "ИИ-агенты для продаж и поддержки",
+    icon: "bot",
+    summary:
+      "Агент ведёт диалог по вашей базе знаний, квалифицирует лид и передаёт его в CRM с контекстом.",
+    outcome: "Быстрее ответ — больше сделок без роста команды.",
+    price: "от 154 000 ₽",
+    weeks: "3–5 недель",
+    highlights: ["Память и инструменты", "CRM и Telegram", "Передача человеку"],
+    accent: "indigo",
+  },
+  {
+    id: "rag",
+    title: "RAG-система по вашим документам",
+    icon: "database",
+    summary:
+      "Ассистент отвечает по регламентам, договорам и базе знаний, а не по памяти модели.",
+    outcome: "Ответы со ссылками на источник и контролем галлюцинаций.",
+    price: "от 196 000 ₽",
+    weeks: "4–6 недель",
+    highlights: ["Metadata-driven retrieval", "Цитаты и проверка", "Локальный контур"],
+    accent: "teal",
+  },
+  {
+    id: "mvp",
+    title: "Live MVP под ключ",
+    icon: "layers",
+    summary:
+      "Рабочий продукт на реальных данных за 2–4 недели: интерфейс, API, интеграции и деплой.",
+    outcome: "Проверяете гипотезу на рынке, а не в презентации.",
+    price: "от 126 000 ₽",
+    weeks: "2–4 недели",
+    highlights: ["Web / Telegram / VK", "Прод-архитектура", "Код и доступы у вас"],
+    accent: "amber",
+  },
+  {
+    id: "trading",
+    title: "Торговые боты для криптобирж",
+    icon: "chart",
+    summary:
+      "Funding-арбитраж, исполнение сигналов и риск-менеджмент для Hyperliquid, dYdX, GMX.",
+    outcome: "Стратегия с бэктестом, paper-режимом и контролем просадки.",
+    price: "по запросу",
+    weeks: "3–6 недель",
+    highlights: ["Бэктест и paper", "Риск-лимиты", "PnL-дашборд"],
+    accent: "rose",
+  },
+  {
+    id: "automation",
+    title: "Автоматизация и интеграции",
+    icon: "workflow",
+    summary:
+      "Связываем CRM, почту, документы и внутренние сервисы в один управляемый процесс.",
+    outcome: "Меньше ручного ввода — меньше ошибок и потерь.",
+    price: "от 42 000 ₽",
+    weeks: "1–3 недели",
+    highlights: ["AmoCRM / Bitrix24", "Документы и отчёты", "Очереди и вебхуки"],
+    accent: "indigo",
+  },
+  {
+    id: "compliance",
+    title: "ИИ-комплаенс и безопасность",
+    icon: "shield",
+    summary:
+      "Маскирование PII, разграничение доступа и аудит решений до вызова внешней модели.",
+    outcome: "ИИ можно внедрять без нарушения 152-ФЗ и внутренних политик.",
+    price: "от 84 000 ₽",
+    weeks: "2–4 недели",
+    highlights: ["ФЗ-152 / ФЗ-115", "PII-маскирование", "Audit trail"],
+    accent: "teal",
+  },
+];
 
 export const EXPERTISE: ExpertiseGroup[] = [
   {
@@ -150,6 +270,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "indigo",
     summary:
       "Микросервис AML-комплаенса: оркестрация правил и LLM-проверок в едином пайплайне с объяснимым результатом по каждой операции.",
+    result: "Каждое решение объяснимо, а PII не уходит во внешнюю модель.",
+    href: "https://github.com/markmus11012020-max/FinTech-Compliance-AI-Orchestrator",
     highlights: [
       "Правила и LLM-проверки в одном пайплайне с приоритизацией риска",
       "Audit trail: для каждого решения сохранён набор сработавших признаков",
@@ -167,6 +289,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "purple",
     summary:
       "Юридический ИИ-сервис: анализ ситуации, чек-лист действий и готовый документ с оплатой по результату.",
+    result: "180 автотестов, анонимность данных и оплата только за результат.",
+    href: "https://github.com/markmus11012020-max/CLICKJURIST_RANEPA",
     highlights: [
       "Три стадии: анализ ситуации → чек-лист → готовый документ",
       "Анонимность данных: ПДн заменяются метками до вызова LLM",
@@ -184,6 +308,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "indigo",
     summary:
       "Автономный ИИ-агент рынка облигаций РФ: мониторинг Мосбиржи, семантический анализ новостей, расчёт доходности и уведомления в Telegram.",
+    result: "Risk Officer и Human-in-the-Loop перед каждым решением.",
+    href: "https://github.com/markmus11012020-max/Platon-RuBond-bot",
     highlights: [
       "LangGraph-граф с отдельной ролью Risk Officer и Human-in-the-Loop",
       "Расчёт YTM и сравнение выпусков по доходности и кредитному риску",
@@ -201,6 +327,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "purple",
     summary:
       "ИИ-ассистент отдела продаж: отвечает клиенту по базе продуктов, подсказывает допродажу и передаёт результат в CRM.",
+    result: "Ответ клиенту и подсказка менеджеру по апселлу — в одном окне.",
+    href: "https://github.com/markmus11012020-max/Health-Bot-AI",
     highlights: [
       "Маскирование имён, телефонов, e-mail и адресов до вызова LLM",
       "Два блока ответа: сообщение клиенту и подсказка менеджеру по апселлу",
@@ -218,6 +346,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "indigo",
     summary:
       "ИИ-ассистент по базе данных: отвечает на вопросы на естественном языке и генерирует SQL, опираясь на метаданные схемы.",
+    result: "SQL с валидацией и объяснением на языке бизнеса.",
+    href: "https://github.com/markmus11012020-max/universal-ai-sql-assistant",
     highlights: [
       "Схема БД как источник контекста — без ручных промптов под каждую таблицу",
       "Генерация SQL с валидацией синтаксиса и ограничением прав доступа",
@@ -235,6 +365,8 @@ export const PROJECTS: ProjectCase[] = [
     accent: "purple",
     summary:
       "Асинхронный сервис классификации обращений: определяет тематику и приоритет и маршрутизирует тикет в нужную очередь.",
+    result: "Поток обращений разложен по темам, приоритетам и SLA.",
+    href: "https://github.com/markmus11012020-max/helpdesk-ai-backend",
     highlights: [
       "Классификация тематики и приоритета на потоке обращений",
       "Маршрутизация в профильную команду с учётом SLA",
@@ -243,6 +375,99 @@ export const PROJECTS: ProjectCase[] = [
     ],
     stack: ["Python 3.12", "FastAPI", "SQLAlchemy", "Redis"],
     flow: ["Ticket", "Classifier", "Router", "Queue"],
+  },
+];
+
+export const TRADING_CASES: ProjectCase[] = [
+  {
+    id: "dex-arb",
+    title: "DEX-ARB — funding-rate arbitrage",
+    category: "Hyperliquid · dYdX · GMX",
+    icon: "chart",
+    accent: "teal",
+    summary:
+      "Кросс-биржевой арбитраж funding rate: long на дешёвой ставке, short на дорогой, контроль спреда и автоматическое исполнение.",
+    result: "Бэктест, paper/testnet, риск-лимиты и PnL-дашборд.",
+    href: "https://github.com/markmus11012020-max/dex-arb",
+    highlights: [
+      "Сбор ставок с Hyperliquid, dYdX и GMX",
+      "Smart sizing по стакану и защита от проскальзывания",
+      "Rollback при сбое второй ноги и лимиты экспозиции",
+      "PnL, funding, CSV/JSON-экспорт и Telegram-алерты",
+    ],
+    stack: ["Python 3.12", "asyncio", "Hyperliquid", "dYdX v4", "FastAPI", "Docker"],
+    flow: ["Markets", "Spread", "Risk", "Execution", "PnL"],
+  },
+  {
+    id: "platon-rubond",
+    title: "Platon RuBond — AI-аналитик рынка",
+    category: "MOEX · LangGraph · RAG",
+    icon: "brain",
+    accent: "indigo",
+    summary:
+      "ИИ-агент по рынку облигаций РФ: мониторинг Мосбиржи, новости, расчёт доходности и уведомления в Telegram/VK.",
+    result: "Risk Officer и Human-in-the-Loop перед рекомендацией.",
+    href: "https://github.com/markmus11012020-max/Platon-RuBond-bot",
+    highlights: [
+      "LangGraph-граф с отдельной ролью Risk Officer",
+      "YTM, дюрация и сравнение выпусков по риску",
+      "Семантический поиск новостей и Pinecone",
+      "Streamlit-дашборд, VK-бот и premarket PWA",
+    ],
+    stack: ["Python", "LangGraph", "Pinecone", "Streamlit", "MOEX ISS"],
+    flow: ["MOEX", "News", "Risk Officer", "Human gate", "Telegram"],
+  },
+];
+
+export const STACK_GROUPS: StackGroup[] = [
+  {
+    id: "ai",
+    title: "AI и работа с моделями",
+    icon: "brain",
+    summary: "Поведение модели как инженерная система, а не набор промптов.",
+    items: [
+      "Prompt Chaining и декомпозиция задач",
+      "Token Economy, Stop Sequences, Prompt Caching",
+      "Agentic AI с памятью и инструментами",
+      "Metadata-driven RAG и контроль галлюцинаций",
+      "OpenAI, Anthropic, DeepSeek, YandexGPT, GigaChat",
+    ],
+  },
+  {
+    id: "backend",
+    title: "Backend и данные",
+    icon: "server",
+    summary: "Сервисный слой, который выдерживает нагрузку и обновления.",
+    items: [
+      "Python: FastAPI, SQLAlchemy 2, Pydantic v2",
+      "Java 17: Spring Boot 3, JPA / Hibernate, Maven",
+      "PostgreSQL, Redis, SQLite, pgvector, Pinecone",
+      "Очереди, идемпотентность, фоновые задачи",
+    ],
+  },
+  {
+    id: "trading",
+    title: "Торговые системы",
+    icon: "chart",
+    summary: "Данные, исполнение и риск-контур для алгоритмической торговли.",
+    items: [
+      "Hyperliquid, dYdX v4, GMX",
+      "ccxt, WebSocket, REST, order book",
+      "Backtest, paper trading, testnet, dry-run",
+      "Risk manager, stop-loss, kill-switch, PnL",
+    ],
+  },
+  {
+    id: "infra",
+    title: "Инфраструктура и безопасность",
+    icon: "shield",
+    summary: "Деплой, наблюдаемость и требования регуляторов.",
+    items: [
+      "Docker / Docker Compose, Ubuntu, Yandex Cloud / Cloud.ru",
+      "Nginx, HTTPS, CI/CD, мониторинг и алерты",
+      "ФЗ-152 и ФЗ-115, маскирование PII",
+      "Аудит решений, разграничение доступа, шифрование",
+    ],
   },
 ];
 
@@ -268,7 +493,7 @@ export const PROCESS: ProcessStep[] = [
     title: "MVP в прод",
     duration: "2–4 недели",
     description:
-      "Прод-архитектура: интеграции, безопасность, маскирование данных, мониторинг. Деплой в ваш контур или в Yandex Cloud.",
+      "Прод-архитектура: интеграции, безопасность, маскирование данных, мониторинг. Деплой в ваш контур или в российское облако.",
     deliverables: ["Прод-сервис", "Интеграции", "Мониторинг и алерты"],
   },
   {
@@ -307,7 +532,7 @@ export const TRUST: TrustItem[] = [
     id: "infra",
     title: "Инфраструктура в вашем контуре",
     description:
-      "Docker / Docker Compose, Ubuntu VM в Yandex Cloud или on-premise. Локальные модели — тоже вариант.",
+      "Docker / Docker Compose, Ubuntu VM в российском облаке (Yandex Cloud / Cloud.ru) или on-premise. Локальные модели — тоже вариант.",
     icon: "server",
   },
 ];
@@ -349,10 +574,29 @@ export const FAQ: FaqItem[] = [
     answer:
       "Да. Для проектов под NDA публикуем обезличенные описания архитектуры без имён клиентов и коммерческих деталей. Договор и NDA подписываются до старта дискавери.",
   },
+  {
+    id: "trading",
+    question: "Разрабатываете торговых ботов?",
+    answer:
+      "Да. Делаем funding-арбитраж, исполнение сигналов и риск-контур для Hyperliquid, dYdX и GMX. Сначала бэктест и paper/testnet, затем прод. Не управляем средствами клиента и не обещаем доходность: это разработка ПО, а не инвестиционная рекомендация.",
+  },
+  {
+    id: "contacts",
+    question: "Куда приходят заявки?",
+    answer:
+      "Заявка одновременно уходит на два e-mail, в два Telegram-чата и в VK. Дублирование нужно, чтобы обращение не потерялось, если один канал временно недоступен.",
+  },
+  {
+    id: "legal",
+    question: "С кем заключается договор?",
+    answer:
+      "Самозанятый Мусина Гульназ Мягазовна, ИНН 631306493907. Работаем по договору, выдаём чек через «Мой налог», при необходимости подписываем NDA.",
+  },
 ];
 
 export const HERO_BADGES = [
-  "Автономные агенты",
+  "ИИ-агенты",
   "RAG-системы",
+  "Торговые боты",
   "Live MVP",
 ] as const;

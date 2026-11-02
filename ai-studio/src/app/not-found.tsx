@@ -9,11 +9,11 @@ export default function NotFound() {
       <div aria-hidden="true" className="absolute inset-0 bg-radial-glow" />
 
       <div className="relative text-center">
-        <p className="font-mono text-sm tracking-[0.3em] text-indigo-400">404</p>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+        <p className="font-mono text-sm tracking-[0.3em] text-primary">404</p>
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
           Такой страницы нет
         </h1>
-        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-slate-400">
+        <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">
           Возможно, ссылка устарела. Вернитесь на главную — там калькулятор,
           проекты и форма заявки.
         </p>

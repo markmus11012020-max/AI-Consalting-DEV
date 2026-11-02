@@ -14,7 +14,7 @@ export function GlowCard({
   return (
     <div
       className={cn(
-        "glow-card rounded-2xl border border-white/[0.06]",
+        "glow-card rounded-2xl border border-border",
         interactive && "glow-card-hover",
         className,
       )}

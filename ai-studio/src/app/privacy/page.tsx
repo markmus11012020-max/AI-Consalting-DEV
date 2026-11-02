@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Политика обработки персональных данных",
   description:
-    "Как AI.STUDIO обрабатывает персональные данные, полученные через форму заявки на сайте.",
+    "Как Aillix обрабатывает персональные данные, полученные через форму заявки на сайте.",
   robots: { index: true, follow: true },
   alternates: { canonical: "/privacy" },
 };
@@ -17,7 +17,7 @@ const SECTIONS = [
   {
     title: "1. Общие положения",
     paragraphs: [
-      "Настоящая политика определяет порядок обработки и защиты персональных данных пользователей сайта AI.STUDIO (далее — Сайт) и действует в отношении всей информации, которую оператор получает о пользователях Сайта.",
+      "Настоящая политика определяет порядок обработки и защиты персональных данных пользователей сайта Aillix (далее — Сайт) и действует в отношении всей информации, которую оператор получает о пользователях Сайта.",
       "Используя Сайт и отправляя заявку через форму, пользователь подтверждает согласие с условиями настоящей политики.",
     ],
   },
@@ -52,7 +52,7 @@ const SECTIONS = [
     title: "6. Передача данных",
     paragraphs: [
       "Оператор не продаёт и не передаёт персональные данные третьим лицам, за исключением случаев, прямо предусмотренных законом, либо когда передача необходима для исполнения договора с пользователем.",
-      "Технические уведомления о новых заявках могут доставляться через мессенджер Telegram. Передаётся минимально необходимый состав данных: имя, контакт и текст задачи.",
+      "Технические уведомления о новых заявках доставляются в два адреса электронной почты, два чата Telegram и сообщество VK. Передаётся минимально необходимый состав данных: имя, контакт, текст задачи и конфигурация калькулятора. Для отправки почты используется российский SMTP-провайдер; хостинг сайта расположен в России.",
     ],
   },
   {
@@ -89,30 +89,30 @@ export default function PrivacyPage() {
       <Section id="privacy" className="pt-32 sm:pt-36" labelledBy="privacy-title">
         <Container>
           <div className="mx-auto max-w-3xl">
-            <p className="text-[12.5px] font-semibold uppercase tracking-[0.18em] text-indigo-300">
+            <p className="text-[12.5px] font-semibold uppercase tracking-[0.18em] text-primary">
               Правовая информация
             </p>
             <h1
               id="privacy-title"
-              className="mt-3 text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+              className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
             >
               Политика обработки персональных данных
             </h1>
-            <p className="mt-3 text-sm text-slate-500">
-              Редакция от 27 октября 2026 года
+            <p className="mt-3 text-sm text-muted-foreground">
+              Редакция от 2 ноября 2026 года
             </p>
 
-            <div className="mt-10 space-y-9 border-t border-white/[0.07] pt-9">
+            <div className="mt-10 space-y-9 border-t border-border pt-9">
               {SECTIONS.map((section) => (
                 <section key={section.title}>
-                  <h2 className="text-[18px] font-semibold text-white">
+                  <h2 className="text-[18px] font-semibold text-foreground">
                     {section.title}
                   </h2>
                   <div className="mt-3 space-y-3">
                     {section.paragraphs.map((paragraph) => (
                       <p
                         key={paragraph}
-                        className="text-[15px] leading-relaxed text-slate-400"
+                        className="text-[15px] leading-relaxed text-muted-foreground"
                       >
                         {paragraph}
                       </p>
@@ -122,18 +122,18 @@ export default function PrivacyPage() {
               ))}
 
               <section>
-                <h2 className="text-[18px] font-semibold text-white">
+                <h2 className="text-[18px] font-semibold text-foreground">
                   11. Контакты оператора
                 </h2>
-                <div className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate-400">
-                  {/* TODO: указать ИНН, ОГРН и адрес оператора */}
+                <div className="mt-3 space-y-2 text-[15px] leading-relaxed text-muted-foreground">
                   <p>Оператор: {SITE.company.legalName}</p>
+                  <p>ИНН: {SITE.company.inn}</p>
                   <p>Бренд сайта: {SITE.name}</p>
                   <p>
                     E-mail:{" "}
                     <a
                       href={SITE.contacts.emailHref}
-                      className="text-indigo-300 underline-offset-2 hover:underline"
+                      className="text-primary underline-offset-2 hover:underline"
                     >
                       {SITE.contacts.email}
                     </a>
@@ -142,7 +142,7 @@ export default function PrivacyPage() {
                     Телефон:{" "}
                     <a
                       href={SITE.contacts.phoneHref}
-                      className="text-indigo-300 underline-offset-2 hover:underline"
+                      className="text-primary underline-offset-2 hover:underline"
                     >
                       {SITE.contacts.phone}
                     </a>
@@ -153,7 +153,7 @@ export default function PrivacyPage() {
                       href={SITE.contacts.telegramUrl}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="text-indigo-300 underline-offset-2 hover:underline"
+                      className="text-primary underline-offset-2 hover:underline"
                     >
                       {SITE.contacts.telegram}
                     </a>
@@ -164,7 +164,7 @@ export default function PrivacyPage() {
 
             <Link
               href="/"
-              className="mt-12 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2.5 text-[14.5px] text-slate-300 transition-colors hover:border-indigo-400/40 hover:text-white"
+              className="mt-12 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-[14.5px] text-foreground transition-colors hover:border-primary/25 hover:text-foreground"
             >
               ← Вернуться на главную
             </Link>

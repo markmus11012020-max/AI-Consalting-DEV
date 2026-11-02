@@ -1,4 +1,4 @@
-# AI.STUDIO — сайт-визитка консалтинговой компании по внедрению ИИ
+# Aillix — сайт-визитка консалтинговой компании по внедрению ИИ
 
 Одностраничный сайт с интерактивным калькулятором MVP и валидируемой формой заявки.
 Next.js 15 (App Router) · TypeScript · Tailwind CSS 3 · shadcn/ui · Framer Motion.
@@ -79,20 +79,34 @@ src/
 
 Валидация — `zod`-схема `src/lib/lead/schema.ts`, используется и на клиенте, и в server action.
 
-Доставка — Telegram Bot API:
-
-1. Создайте бота у `@BotFather` и получите токен.
-2. Напишите боту любое сообщение.
-3. Откройте `https://api.telegram.org/bot<TOKEN>/getUpdates` и найдите `chat.id`.
-4. Заполните `.env`:
+Доставка — веером в два Telegram-чата, два e-mail и VK:
 
 ```env
 TELEGRAM_BOT_TOKEN=123456:AA...
-TELEGRAM_CHAT_ID=123456789
+TELEGRAM_CHAT_ID_1=111111111
+TELEGRAM_BOT_TOKEN_2=
+TELEGRAM_CHAT_ID_2=222222222
+
+SMTP_HOST=smtp.yandex.ru
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=robot@aillix.ru
+SMTP_PASS=
+LEAD_EMAIL_FROM="Aillix <robot@aillix.ru>"
+LEAD_EMAIL_TO_1=pochta.samara163@mail.ru
+LEAD_EMAIL_TO_2=gmusina@list.ru
+
+VK_GROUP_TOKEN=
+VK_USER_ID=1018631057
 ```
 
-Если переменные не заданы в `production`, форма вернёт понятную ошибку доставки
-(заявки не теряются молча). В `development` заявка пишется в лог сервера.
+- Telegram: создайте бота у `@BotFather`, каждый получатель должен нажать `/start`; `chat_id` берётся из `getUpdates`.
+- VK: нужен токен сообщества с правом `messages`; пользователь должен разрешить сообщения сообщества.
+- SMTP: используйте доменный ящик `robot@aillix.ru` (Yandex 360) и пароль приложения; настройте SPF/DKIM/DMARC.
+
+Если ни один канал не настроен в `production`, форма вернёт понятную ошибку.
+В `development` заявка пишется в лог. Все заявки дополнительно сохраняются в
+`data/leads.jsonl` (Docker volume `aillix_data`).
 
 Антиспам: honeypot-поле + rate-limit 3 заявки / 10 минут на IP.
 Для дополнительной защиты можно подключить Yandex SmartCaptcha (ключ в `.env.example`).
@@ -110,11 +124,11 @@ sudo usermod -aG docker $USER   # перелогиниться
 ### 2. Код и переменные
 
 ```bash
-sudo mkdir -p /opt/ai-studio && sudo chown $USER /opt/ai-studio
-git clone <repo-url> /opt/ai-studio
-cd /opt/ai-studio
+sudo mkdir -p /opt/aillix && sudo chown $USER /opt/aillix
+git clone <repo-url> /opt/aillix
+cd /opt/aillix
 cp .env.example .env
-nano .env     # NEXT_PUBLIC_SITE_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+nano .env     # NEXT_PUBLIC_SITE_URL, Telegram, SMTP, VK
 ```
 
 ### 3. Запуск
@@ -135,23 +149,23 @@ sudo ln -s /etc/nginx/sites-available/ai-studio /etc/nginx/sites-enabled/ai-stud
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo nano /etc/nginx/sites-available/ai-studio   # заменить домен
 sudo nginx -t && sudo systemctl reload nginx
-sudo certbot --nginx -d ai-studio.ru -d www.ai-studio.ru
+sudo certbot --nginx -d aillix.ru -d www.aillix.ru
 ```
 
 ### 5. Обновление
 
 ```bash
-./deploy/deploy.sh /opt/ai-studio
+./deploy/deploy.sh /opt/aillix
 ```
 
 ### Альтернатива без Docker
 
 Соберите проект (`npm ci && npm run build`), скопируйте `.next/standalone`,
-`.next/static` и `public` в `/opt/ai-studio` и используйте
-`deploy/ai-studio.service`:
+`.next/static` и `public` в `/opt/aillix` и используйте
+`deploy/aillix.service`:
 
 ```bash
-sudo cp deploy/ai-studio.service /etc/systemd/system/
+sudo cp deploy/aillix.service /etc/systemd/system/
 sudo systemctl daemon-reload && sudo systemctl enable --now ai-studio
 ```
 

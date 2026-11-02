@@ -1,44 +1,55 @@
 import type { ContactChannel, NavItem } from "@/types";
 
 export const SITE = {
-  name: "AI.STUDIO",
-  tagline: "Консалтинговая компания по внедрению ИИ",
+  name: "Aillix",
+  tagline: "AI-инженерия для реального бизнеса",
   description:
-    "Консалтинговая компания «Искусственный интеллект. Внедрение и разработка» проектирует и внедряет генеративный ИИ в реальный бизнес: автономные агенты, RAG-системы и Live MVP с боевой архитектурой и соответствием ФЗ-152.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ai-studio.ru",
+    "Aillix проектирует и внедряет ИИ-агентов, RAG-системы и торговых ботов для бизнеса: от идеи до продакшена, с фиксированными критериями успеха, защитой данных и кодом у клиента.",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://aillix.ru",
   locale: "ru_RU",
   company: {
-    legalName: "ООО «Искусственный интеллект. Внедрение и разработка»",
-    shortName: "Искусственный интеллект",
-    role: "консалтинговая компания по внедрению и разработке ИИ-решений",
+    legalName: "Самозанятый Мусина Гульназ Мягазовна",
+    shortName: "Aillix",
+    inn: "631306493907",
+    role: "AI-инженерия и разработка",
   },
   contacts: {
     email: "gmusina@list.ru",
+    emailHref: "mailto:gmusina@list.ru",
+    leadEmails: ["pochta.samara163@mail.ru", "gmusina@list.ru"] as const,
     telegram: "@GulnazM1101",
     telegramUrl: "https://t.me/GulnazM1101",
+    telegramSales: "@rust163",
+    telegramSalesUrl: "https://t.me/rust163",
     phone: "+7 (962) 609-00-01",
     phoneHref: "tel:+79626090001",
-    emailHref: "mailto:gmusina@list.ru",
   },
 } as const;
 
 export const NAV: NavItem[] = [
-  { id: "expertise", label: "Экспертиза", href: "#expertise" },
-  { id: "solutions", label: "Проекты", href: "#solutions" },
-  { id: "process", label: "Процесс", href: "#process" },
+  { id: "services", label: "Услуги", href: "#services" },
+  { id: "cases", label: "Кейсы", href: "#cases" },
+  { id: "trading", label: "Торговые боты", href: "#trading" },
   { id: "calculator", label: "Калькулятор", href: "#calculator" },
+  { id: "tech", label: "Технологии", href: "#tech" },
   { id: "faq", label: "FAQ", href: "#faq" },
+  { id: "contact", label: "Контакты", href: "#contact" },
 ];
 
-export const HEADER_NAV: NavItem[] = NAV.slice(0, 4);
+export const HEADER_NAV: NavItem[] = NAV.filter((item) =>
+  ["services", "cases", "trading", "calculator", "tech"].includes(item.id),
+);
 
 export const SECTION_IDS = [
   "top",
-  "use-cases",
-  "expertise",
-  "solutions",
-  "process",
+  "pains",
+  "services",
+  "cases",
+  "trading",
   "calculator",
+  "process",
+  "trust",
+  "tech",
   "faq",
   "contact",
 ] as const;

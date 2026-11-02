@@ -3,9 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ai-studio:latest
-    container_name: ai-studio
+    image: aillix:latest
+    container_name: aillix
     restart: unless-stopped
+    init: true
+    security_opt:
+      - no-new-privileges:true
     env_file:
       - .env
     environment:
@@ -13,6 +16,8 @@ services:
       PORT: "3000"
     ports:
       - "127.0.0.1:3000:3000"
+    volumes:
+      - aillix_data:/app/data
     healthcheck:
       test:
         [
@@ -30,3 +35,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+volumes:
+  aillix_data:

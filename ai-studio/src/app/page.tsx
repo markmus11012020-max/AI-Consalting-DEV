@@ -1,14 +1,16 @@
 import { Calculator } from "@/components/sections/calculator";
+import { Cases } from "@/components/sections/cases";
 import { Contact } from "@/components/sections/contact";
-import { Expertise } from "@/components/sections/expertise";
 import { Faq } from "@/components/sections/faq";
 import { Hero } from "@/components/sections/hero";
+import { PainPoints } from "@/components/sections/pain-points";
 import { Process } from "@/components/sections/process";
-import { Solutions } from "@/components/sections/solutions";
+import { Services } from "@/components/sections/services";
+import { TechStack } from "@/components/sections/tech-stack";
+import { TradingBots } from "@/components/sections/trading-bots";
 import { Trust } from "@/components/sections/trust";
-import { UseCases } from "@/components/sections/use-cases";
 import { SectionDivider } from "@/components/layout/section";
-import { AGENT_USE_CASE, USE_CASES } from "@/lib/content";
+import { AGENT_USE_CASE, FAQ, SERVICES, USE_CASES } from "@/lib/content";
 import { SITE } from "@/lib/site";
 
 export default function Home() {
@@ -21,7 +23,10 @@ export default function Home() {
         name: SITE.name,
         legalName: SITE.company.legalName,
         alternateName: SITE.company.shortName,
+        taxID: SITE.company.inn,
         url: SITE.url,
+        logo: `${SITE.url}/icon.svg`,
+        image: `${SITE.url}/opengraph-image`,
         description: SITE.description,
         email: SITE.contacts.email,
         telephone: SITE.contacts.phone,
@@ -29,10 +34,18 @@ export default function Home() {
           "@type": "Country",
           name: "Россия",
         },
+        sameAs: [
+          "https://github.com/markmus11012020-max",
+          SITE.contacts.telegramUrl,
+          SITE.contacts.telegramSalesUrl,
+        ],
         knowsAbout: [
           "Генеративный ИИ",
           "ИИ-агенты",
           "RAG-системы",
+          "Торговые боты",
+          "Hyperliquid",
+          "dYdX",
           "FastAPI",
           "Spring Boot",
           "ФЗ-152",
@@ -41,15 +54,29 @@ export default function Home() {
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Направления внедрения ИИ",
-          itemListElement: [...USE_CASES, AGENT_USE_CASE].map((item) => ({
-            "@type": "Offer",
-            itemOffered: {
-              "@type": "Service",
-              name: item.title,
-              description: item.summary,
-            },
-          })),
+          itemListElement: [...USE_CASES, AGENT_USE_CASE, ...SERVICES].map(
+            (item) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: item.title,
+                description: item.summary,
+              },
+            }),
+          ),
         },
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE.url}/#faq`,
+        mainEntity: FAQ.map((item) => ({
+          "@type": "Question",
+          name: item.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: item.answer,
+          },
+        })),
       },
     ],
   };
@@ -63,16 +90,21 @@ export default function Home() {
 
       <Hero />
       <SectionDivider />
-      <UseCases />
+      <PainPoints />
       <SectionDivider />
-      <Expertise />
+      <Services />
       <SectionDivider />
-      <Solutions />
+      <Cases />
+      <SectionDivider />
+      <TradingBots />
+      <SectionDivider />
+      <Calculator />
       <SectionDivider />
       <Process />
       <SectionDivider />
       <Trust />
-      <Calculator />
+      <SectionDivider />
+      <TechStack />
       <SectionDivider />
       <Faq />
       <SectionDivider />

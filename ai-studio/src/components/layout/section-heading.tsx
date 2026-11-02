@@ -28,10 +28,10 @@ export function SectionHeading({
       )}
     >
       {eyebrow ? (
-        <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[12.5px] font-semibold uppercase tracking-[0.18em] text-indigo-300">
+        <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-[13px] font-semibold uppercase tracking-[0.16em] text-primary">
           <span
             aria-hidden="true"
-            className="h-1.5 w-1.5 rounded-full bg-purple-400"
+            className="h-1.5 w-1.5 rounded-full bg-accent"
           />
           {eyebrow}
         </p>
@@ -39,13 +39,13 @@ export function SectionHeading({
 
       <h2
         id={id}
-        className="text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]"
+        className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]"
       >
         {title}
       </h2>
 
       {description ? (
-        <p className="mt-4 text-base leading-relaxed text-slate-400 sm:text-[18px]">
+        <p className="mt-4 text-base leading-relaxed text-muted-foreground sm:text-[18px]">
           {description}
         </p>
       ) : null}

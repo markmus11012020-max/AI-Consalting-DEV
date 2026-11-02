@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Inter, Manrope } from "next/font/google";
-import { Toaster } from "sonner";
 
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ThemeToaster } from "@/components/theme/theme-toaster";
 import { SITE } from "@/lib/site";
 
 import "./globals.css";
@@ -27,7 +28,7 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
-const title = "AI.STUDIO — Генеративный ИИ для реального бизнеса";
+const title = "Aillix — ИИ-агенты, RAG и торговые боты для бизнеса";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -37,17 +38,20 @@ export const metadata: Metadata = {
   },
   description: SITE.description,
   applicationName: SITE.name,
+  manifest: "/manifest.webmanifest",
   authors: [{ name: SITE.company.legalName }],
   creator: SITE.company.legalName,
   keywords: [
+    "Aillix",
     "генеративный ИИ",
     "ИИ-агенты",
     "RAG-системы",
+    "торговые боты",
+    "криптобиржи",
     "внедрение ИИ",
     "разработка MVP",
     "ФЗ-152",
     "внедрение ИИ под ключ",
-    "консалтинговая компания",
   ],
   alternates: {
     canonical: "/",
@@ -77,8 +81,11 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#030712",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f8fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#070b14" },
+  ],
+  colorScheme: "light dark",
 };
 
 export default function RootLayout({
@@ -89,34 +96,26 @@ export default function RootLayout({
   return (
     <html
       lang="ru"
-      className={`dark ${inter.variable} ${manrope.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${manrope.variable} ${geistMono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-dvh bg-background font-sans text-foreground antialiased">
         <a
           href="#top"
-          className="sr-only z-[100] rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-[100] rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Перейти к содержимому
         </a>
 
-        <MotionProvider>
-          <Header />
-          {children}
-          <Footer />
-        </MotionProvider>
+        <ThemeProvider>
+          <MotionProvider>
+            <Header />
+            {children}
+            <Footer />
+          </MotionProvider>
+        </ThemeProvider>
 
-        <Toaster
-          theme="dark"
-          position="top-center"
-          toastOptions={{
-            style: {
-              background: "#0b1120",
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "#f4f4f5",
-            },
-          }}
-        />
+        <ThemeToaster />
       </body>
     </html>
   );
