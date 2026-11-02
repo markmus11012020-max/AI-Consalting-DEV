@@ -1,6 +1,7 @@
 import { LeadTransportError, type LeadDelivery } from "@/lib/lead/types";
 
-const TELEGRAM_API = "https://api.telegram.org";
+const TELEGRAM_API =
+  process.env.TELEGRAM_API_BASE?.trim() || "https://api.telegram.org";
 
 export interface TelegramTarget {
   name: string;
