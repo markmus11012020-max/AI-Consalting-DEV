@@ -15,7 +15,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://aillix.ru
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
