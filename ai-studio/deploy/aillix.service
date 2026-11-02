@@ -6,12 +6,12 @@ After=network.target
 [Service]
 Type=simple
 User=www-data
-WorkingDirectory=/opt/aillix
+WorkingDirectory=/opt/aillix/ai-studio
 Environment=NODE_ENV=production
 Environment=PORT=3000
 Environment=HOSTNAME=127.0.0.1
-EnvironmentFile=/opt/aillix/.env
-ExecStart=/usr/bin/node /opt/aillix/server.js
+EnvironmentFile=/opt/aillix/ai-studio/.env
+ExecStart=/usr/bin/node /opt/aillix/ai-studio/server.js
 Restart=always
 RestartSec=5
 StandardOutput=journal
@@ -23,7 +23,7 @@ NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ProtectHome=true
-ReadWritePaths=/opt/aillix/.next/cache /opt/aillix/data
+ReadWritePaths=/opt/aillix/ai-studio/.next/cache /opt/aillix/ai-studio/data
 
 [Install]
 WantedBy=multi-user.target

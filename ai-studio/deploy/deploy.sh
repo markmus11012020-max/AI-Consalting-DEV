@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 # Деплой Aillix на Ubuntu VM.
-# Использование: ./deploy/deploy.sh [путь_к_проекту]
+# Использование: ./deploy/deploy.sh [путь_к_приложению]
 set -euo pipefail
 
-PROJECT_DIR="${1:-/opt/aillix}"
-cd "$PROJECT_DIR"
+APP_DIR="${1:-/opt/aillix/ai-studio}"
+REPO_DIR="$(git -C "$APP_DIR" rev-parse --show-toplevel)"
 
 echo "→ Обновление кода"
+cd "$REPO_DIR"
 git pull --ff-only
 
 echo "→ Сборка образа"
-docker compose build
+cd "$APP_DIR"
+docker compose -p aillix build
 
 echo "→ Запуск контейнеров"
-docker compose up -d
+docker compose -p aillix up -d
 
 echo "→ Ожидание health-check"
 for attempt in $(seq 1 30); do
@@ -23,7 +25,7 @@ for attempt in $(seq 1 30); do
   fi
   if [ "$attempt" -eq 30 ]; then
     echo "✗ Сервис не поднялся за 60 секунд"
-    docker compose logs --tail=100
+    docker compose -p aillix logs --tail=100
     exit 1
   fi
   sleep 2

@@ -1,3 +1,5 @@
+name: aillix
+
 services:
   web:
     build:

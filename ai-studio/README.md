@@ -126,7 +126,7 @@ sudo usermod -aG docker $USER   # перелогиниться
 ```bash
 sudo mkdir -p /opt/aillix && sudo chown $USER /opt/aillix
 git clone <repo-url> /opt/aillix
-cd /opt/aillix
+cd /opt/aillix/ai-studio
 cp .env.example .env
 nano .env     # NEXT_PUBLIC_SITE_URL, Telegram, SMTP, VK
 ```
@@ -155,13 +155,13 @@ sudo certbot --nginx -d aillix.ru -d www.aillix.ru
 ### 5. Обновление
 
 ```bash
-./deploy/deploy.sh /opt/aillix
+./deploy/deploy.sh /opt/aillix/ai-studio
 ```
 
 ### Альтернатива без Docker
 
 Соберите проект (`npm ci && npm run build`), скопируйте `.next/standalone`,
-`.next/static` и `public` в `/opt/aillix` и используйте
+`.next/static` и `public` в `/opt/aillix/ai-studio` и используйте
 `deploy/aillix.service`:
 
 ```bash
