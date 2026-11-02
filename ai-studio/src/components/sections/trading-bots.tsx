@@ -22,7 +22,7 @@ const STEPS = [
   "Формализуем стратегию и риск-профиль",
   "Собираем данные и бэктест",
   "Paper trading и testnet",
-  "Прод с лимитами и мониторингом",
+  "Запуск в работу с лимитами и мониторингом",
 ];
 
 const SAFETY = [
@@ -90,7 +90,7 @@ export function TradingBots() {
                     </div>
                   </div>
                   <Badge variant="success" className="hidden sm:inline-flex">
-                    production-ready
+                    готово к запуску
                   </Badge>
                 </div>
 

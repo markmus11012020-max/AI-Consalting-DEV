@@ -17,7 +17,7 @@ export function Process() {
             eyebrow="Процесс"
             title={
               <>
-                От дискавери до прода{" "}
+                От дискавери до запуска{" "}
                 <span className="text-gradient">за один цикл</span>
               </>
             }

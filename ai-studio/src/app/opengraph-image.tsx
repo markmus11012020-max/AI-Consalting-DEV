@@ -89,7 +89,7 @@ export default function OpengraphImage() {
             }}
           >
             <span>ИИ-агенты и торговые боты</span>
-            <span style={{ color: "#a5b4fc" }}>которые работают в проде</span>
+            <span style={{ color: "#a5b4fc" }}>готовые к реальной работе</span>
           </div>
           <div
             style={{

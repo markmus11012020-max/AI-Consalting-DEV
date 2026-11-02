@@ -19,7 +19,7 @@ export function PainPoints() {
             title={
               <>
                 ИИ уже пробовали, но{" "}
-                <span className="text-gradient">до продакшена не дошло</span>
+                <span className="text-gradient">до реального запуска не дошло</span>
               </>
             }
             description="Мы закрываем разрыв между «красивым демо» и рабочим сервисом, которым пользуются каждый день."

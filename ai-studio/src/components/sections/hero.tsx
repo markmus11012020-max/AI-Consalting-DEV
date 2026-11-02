@@ -15,7 +15,7 @@ const VALUE_PROPS = [
 
 const RESULT_ROWS = [
   {
-    title: "Агент в проде",
+    title: "Агент в деле",
     detail: "Диалоги, CRM, передача человеку",
     meta: "24/7",
   },
@@ -70,8 +70,8 @@ export function Hero() {
                 id="hero-title"
                 className="mt-6 text-[2.45rem] font-bold leading-[1.08] tracking-[-0.03em] text-foreground sm:text-5xl lg:text-[3.9rem]"
               >
-                ИИ-агенты и торговые боты, которые{" "}
-                <span className="text-gradient">работают в проде</span>
+                ИИ-агенты и торговые боты,{" "}
+                <span className="text-gradient">готовые к реальной работе на вас</span>
               </h1>
             </Reveal>
 
@@ -139,7 +139,7 @@ export function Hero() {
               <div className="flex items-center justify-between gap-3 border-b border-border pb-4">
                 <div>
                   <p className="font-mono text-[11.5px] uppercase tracking-[0.18em] text-muted-foreground">
-                    aillix / production
+                    aillix / результат
                   </p>
                   <p className="mt-1 text-[15px] font-semibold text-foreground">
                     Что получает клиент
