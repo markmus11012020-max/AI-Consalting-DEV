@@ -5,7 +5,6 @@ import Link from "next/link";
 import { CheckCircle2, Loader2, Send, X } from "lucide-react";
 import { toast } from "sonner";
 
-import { sendLead } from "@/components/lead/actions";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -14,7 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ESTIMATE_EVENT, ESTIMATE_SUMMARY_KEY } from "@/lib/estimate";
 import { leadSchema, toFieldErrors } from "@/lib/lead/schema";
 import { SITE } from "@/lib/site";
-import type { LeadField } from "@/types";
+import type { LeadActionResult, LeadField } from "@/types";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -111,7 +110,13 @@ export function LeadForm() {
     setStatus("submitting");
 
     try {
-      const result = await sendLead(parsed.data);
+      const response = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed.data),
+      });
+
+      const result = (await response.json()) as LeadActionResult;
 
       if (result.ok) {
         setStatus("success");
