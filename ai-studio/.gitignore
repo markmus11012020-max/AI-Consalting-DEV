@@ -37,6 +37,11 @@ yarn-error.log*
 .env*
 !.env.example
 
+# local registry credentials
+deploy/registry/htpasswd
+deploy/registry/*.crt
+deploy/registry/*.key
+
 # vercel
 .vercel
 

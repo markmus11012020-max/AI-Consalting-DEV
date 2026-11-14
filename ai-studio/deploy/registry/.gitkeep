@@ -1,0 +1,3 @@
+# Файл htpasswd создаётся скриптом:
+#   ./scripts/create-user.sh registry <login>
+# Он намеренно не хранится в git (см. .gitignore).

@@ -10,16 +10,16 @@ echo "→ Обновление кода"
 cd "$REPO_DIR"
 git pull --ff-only
 
-echo "→ Сборка образа"
+echo "→ Сборка образов"
 cd "$APP_DIR"
 docker compose -p aillix build
 
 echo "→ Запуск контейнеров"
-docker compose -p aillix up -d
+docker compose -p aillix up -d --remove-orphans
 
-echo "→ Ожидание health-check"
+echo "→ Ожидание health-check Nginx"
 for attempt in $(seq 1 30); do
-  if curl -fsS http://127.0.0.1:3000/api/health > /dev/null; then
+  if curl -fsS http://127.0.0.1:8080/healthz > /dev/null; then
     echo "✓ Сервис отвечает (попытка $attempt)"
     break
   fi

@@ -1,186 +1,106 @@
-# Aillix — сайт-визитка консалтинговой компании по внедрению ИИ
+# Aillix — сайт-визитка и инфраструктура
 
-Одностраничный сайт с интерактивным калькулятором MVP и валидируемой формой заявки.
-Next.js 15 (App Router) · TypeScript · Tailwind CSS 3 · shadcn/ui · Framer Motion.
+Next.js 15 (App Router) · TypeScript · Tailwind CSS 3 · Docker Compose · Nginx ·
+PostgreSQL.
+
+Репозиторий закрывает три учебных блока; этот README описывает состояние после
+Блока 1 (тег `hw-1`).
+
+## Блок 1 — инфраструктура
+
+| Требование | Реализация |
+|---|---|
+| Docker Compose | `docker-compose.yml`, проект `aillix` |
+| Nginx | контейнер `aillix-nginx` на `127.0.0.1:8080` + host Nginx на 443 |
+| PostgreSQL | `postgres:16-alpine`, volume `postgres_data`, сеть `data` |
+| pgAdmin | `dpage/pgadmin4:8`, профиль `tools`, `127.0.0.1:5050` |
+| Watchtower | `containrrr/watchtower:1.7.1`, только контейнеры с label |
+| Локальный Registry | `registry:2.8`, htpasswd, TLS на `registry.aillix.ru` |
+| Backend закомментирован | блок `backend` в compose и `location /api/` в Nginx |
+| `.env` | `.env.example` со всеми переменными |
+| `create-user.sh` | `scripts/create-user.sh` |
+| Внешний registry | `docker login registry.aillix.ru` |
+| Изоляция | сети `edge`, `data` (internal), `registry` |
+| API/DB только внутри | порты 8000/5432 не публикуются |
+
+```
+Internet → host Nginx :443 → 127.0.0.1:8080 → nginx → web (Next.js :3000)
+registry.aillix.ru → host Nginx :443 → 127.0.0.1:5000 → registry
+postgres :5432 — только сеть data (internal)
+```
 
 ## Быстрый старт
 
 ```bash
-npm install
-cp .env.example .env.local   # Windows: copy .env.example .env.local
-npm run dev                  # http://localhost:3000
+cd ai-studio
+cp .env.example .env && chmod 600 .env
+docker compose config -q
+docker compose up -d --build
+docker compose --profile tools up -d
+curl -fsS http://127.0.0.1:8080/healthz
 ```
 
-Требуется Node.js 22+.
+## Фронтенд
 
-> Проект собирается с `output: "standalone"` (нужно для Docker). `npm start`
-> при этом работает, но выводит предупреждение. Для проверки ровно того же
-> артефакта, что уедет на сервер, используйте:
->
-> ```bash
-> cp -r .next/static .next/standalone/.next/static
-> cp -r public .next/standalone/public
-> PORT=3000 node .next/standalone/server.js
-> ```
+```bash
+npm install
+cp .env.example .env.local
+npm run dev
+```
 
 | Скрипт | Что делает |
 |---|---|
 | `npm run dev` | Dev-сервер с Turbopack |
-| `npm run build` | Прод-сборка |
-| `npm start` | Запуск прод-сборки (`next start`) |
-| `npm run lint` | ESLint (next/core-web-vitals + TS) |
+| `npm run build` | Прод-сборка (`.next/standalone`) |
+| `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
-| `npm run test` | Unit-тесты расчёта сметы (Vitest) |
-| `npm run format` | Prettier + сортировка Tailwind-классов |
+| `npm run test` | Unit-тесты (Vitest) |
 
-## Структура
+## Почему Next.js, а не Vite
 
-```
-src/
-├── app/                 # роутинг, метаданные, sitemap, robots, OG-image
-├── components/
-│   ├── ui/              # shadcn-примитивы + GlowCard, Tag, Badge
-│   ├── layout/          # Header, MobileNav, Footer, Container, Section
-│   ├── sections/        # Hero, UseCases, Expertise, Solutions, Process, Trust, Calculator, FAQ, Contact
-│   ├── calculator/      # опции и карточка сметы
-│   ├── lead/            # схема, server action, форма
-│   └── motion/          # Reveal, MotionProvider
-├── lib/
-│   ├── site.ts          # контакты, навигация, URL
-│   ├── content.ts       # тексты секций, проекты, FAQ
-│   ├── pricing.ts       # ⚠️ цены и сроки калькулятора
-│   ├── estimate.ts      # расчёт сметы, форматирование, сериализация
-│   └── lead/            # zod-схема, Telegram-транспорт
-├── hooks/
-└── types/
-```
+Сайт использует SSR, метаданные, sitemap и серверные запросы. Vite собирает SPA
+в `dist` и потребовал бы переписать роутинг и SEO-слой. Прод-артефакт Next.js —
+`.next/standalone`, он собирается через `npm run build`, поэтому требование к
+сборке выполнено без смены фреймворка.
 
-## Как менять контент
+## Переменные окружения
 
-| Что | Где |
-|---|---|
-| Цены и сроки калькулятора | `src/lib/pricing.ts` — цены со скидкой −30 % от базового прайса, блок с пометкой `TODO(PRICING)` |
-| Правила расчёта (скидка, ±15 %, поддержка) | `src/lib/pricing.ts` → `PRICING_RULES` |
-| Тексты направлений, экспертизы, проектов, процесса, FAQ | `src/lib/content.ts` |
-| Контакты, навигация, домен, юрлицо | `src/lib/site.ts` → `SITE.company` |
-| Метаданные, title/description | `src/app/layout.tsx` |
-| Политика ПД | `src/app/privacy/page.tsx` (перед публикацией добавьте ИНН, ОГРН и адрес оператора) |
-
-## Калькулятор
-
-- Состояние живёт в React и синхронизируется с URL: `?platform=web&ai=rag&int=fz152,amocrm`.
-- Ссылку можно отправить клиенту — конфигурация и смета восстановятся.
-- Кнопка «Получить детальную смету» передаёт конфигурацию в форму заявки
-  через `sessionStorage` и кастомное событие `ai-studio:estimate`.
-- Расчёт — чистая функция `calculateEstimate()` в `src/lib/estimate.ts`,
-  покрыта тестами (`src/lib/estimate.test.ts`).
-
-## Форма заявки
-
-Валидация — `zod`-схема `src/lib/lead/schema.ts`, используется и на клиенте, и в server action.
-
-Доставка — веером в два Telegram-чата, два e-mail и VK:
+Полный список — в [.env.example](.env.example). Критичные для Блока 1:
 
 ```env
-TELEGRAM_BOT_TOKEN=123456:AA...
-TELEGRAM_CHAT_ID_1=111111111
-TELEGRAM_BOT_TOKEN_2=
-TELEGRAM_CHAT_ID_2=222222222
-
-SMTP_HOST=smtp.yandex.ru
-SMTP_PORT=465
-SMTP_SECURE=true
-SMTP_USER=robot@aillix.ru
-SMTP_PASS=
-LEAD_EMAIL_FROM="Aillix <robot@aillix.ru>"
-LEAD_EMAIL_TO_1=pochta.samara163@mail.ru
-LEAD_EMAIL_TO_2=gmusina@list.ru
-
-VK_GROUP_TOKEN=
-VK_USER_ID=1018631057
+POSTGRES_DB=aillix
+POSTGRES_USER=aillix
+POSTGRES_PASSWORD=...
+PGADMIN_DEFAULT_EMAIL=admin@aillix.ru
+PGADMIN_DEFAULT_PASSWORD=...
+REGISTRY_HOST=registry.aillix.ru
+REGISTRY_HTTP_SECRET=...
 ```
 
-- Telegram: создайте бота у `@BotFather`, каждый получатель должен нажать `/start`; `chat_id` берётся из `getUpdates`.
-- VK: нужен токен сообщества с правом `messages`; пользователь должен разрешить сообщения сообщества.
-- SMTP: используйте доменный ящик `robot@aillix.ru` (Yandex 360) и пароль приложения; настройте SPF/DKIM/DMARC.
-
-Если ни один канал не настроен в `production`, форма вернёт понятную ошибку.
-В `development` заявка пишется в лог. Все заявки дополнительно сохраняются в
-`data/leads.jsonl` (Docker volume `aillix_data`).
-
-Антиспам: honeypot-поле + rate-limit 3 заявки / 10 минут на IP.
-Для дополнительной защиты можно подключить Yandex SmartCaptcha (ключ в `.env.example`).
-
-## Деплой в Yandex Cloud (Ubuntu VM)
-
-### 1. Подготовка сервера
+## Пользователи
 
 ```bash
-sudo apt update && sudo apt install -y docker.io docker-compose-v2 nginx certbot python3-certbot-nginx git
-sudo systemctl enable --now docker
-sudo usermod -aG docker $USER   # перелогиниться
+./scripts/create-user.sh registry deploy   # htpasswd для Registry
+./scripts/create-user.sh db readonly       # роль PostgreSQL только на чтение
 ```
 
-### 2. Код и переменные
+## Деплой
+
+Фактическая версия сервера — Ubuntu 24.04.4 LTS (в задании 22.04, отличие
+зафиксировано в `docs/homework/block-1.md`).
 
 ```bash
-sudo mkdir -p /opt/aillix && sudo chown $USER /opt/aillix
 git clone <repo-url> /opt/aillix
 cd /opt/aillix/ai-studio
-cp .env.example .env
-nano .env     # NEXT_PUBLIC_SITE_URL, Telegram, SMTP, VK
-```
-
-### 3. Запуск
-
-```bash
-docker compose build
-docker compose up -d
-curl http://127.0.0.1:3000/api/health
-```
-
-Проверить контейнер: `docker compose ps`, логи: `docker compose logs -f web`.
-
-### 4. Nginx и HTTPS
-
-```bash
-sudo cp deploy/nginx.conf /etc/nginx/sites-available/ai-studio
-sudo ln -s /etc/nginx/sites-available/ai-studio /etc/nginx/sites-enabled/ai-studio
-sudo rm -f /etc/nginx/sites-enabled/default
-sudo nano /etc/nginx/sites-available/ai-studio   # заменить домен
+cp .env.example .env && chmod 600 .env
+docker compose up -d --build
+sudo cp deploy/nginx.conf /etc/nginx/sites-available/aillix
 sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d aillix.ru -d www.aillix.ru
+sudo certbot --nginx -d registry.aillix.ru
 ```
 
-### 5. Обновление
+## Документация блоков
 
-```bash
-./deploy/deploy.sh /opt/aillix/ai-studio
-```
-
-### Альтернатива без Docker
-
-Соберите проект (`npm ci && npm run build`), скопируйте `.next/standalone`,
-`.next/static` и `public` в `/opt/aillix/ai-studio` и используйте
-`deploy/aillix.service`:
-
-```bash
-sudo cp deploy/aillix.service /etc/systemd/system/
-sudo systemctl daemon-reload && sudo systemctl enable --now ai-studio
-```
-
-## Комплаенс
-
-- Форма требует явного согласия на обработку персональных данных.
-- Политика: `/privacy`. **Перед публикацией** добавьте реквизиты оператора
-  (ИНН, ОГРН, адрес) — юрлицо уже указано, в коде оставлен `TODO`.
-- Внешние LLM не используются в рантайме сайта; заявки уходят только в Telegram.
-- При подключении Яндекс.Метрики добавьте cookie-баннер и обновите политику.
-
-## Производительность и качество
-
-- Server Components по умолчанию; `"use client"` только у хедера, калькулятора,
-  формы и анимаций.
-- `LazyMotion` + `m.div` вместо полного рантайма Framer Motion.
-- `prefers-reduced-motion` уважается на уровне JS и CSS.
-- Проверки перед релизом: `npm run lint && npm run typecheck && npm run test && npm run build`.
+- [Блок 1](docs/homework/block-1.md) — инфраструктура.
+- Блок 2 и Блок 3 добавляются отдельными коммитами и тегами `hw-2`, `hw-3`.
