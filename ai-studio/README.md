@@ -1,43 +1,41 @@
-# Aillix — сайт-визитка и инфраструктура
+# Aillix — сайт, API и инфраструктура
 
-Next.js 15 (App Router) · TypeScript · Tailwind CSS 3 · Docker Compose · Nginx ·
-PostgreSQL.
+Next.js 15 (App Router) · TypeScript · Tailwind CSS 3 · FastAPI · PostgreSQL ·
+Nginx · Docker Compose.
 
 Репозиторий закрывает три учебных блока; этот README описывает состояние после
-Блока 1 (тег `hw-1`).
+Блока 2 (тег `hw-2`).
 
-## Блок 1 — инфраструктура
+## Блоки
 
-| Требование | Реализация |
-|---|---|
-| Docker Compose | `docker-compose.yml`, проект `aillix` |
-| Nginx | контейнер `aillix-nginx` на `127.0.0.1:8080` + host Nginx на 443 |
-| PostgreSQL | `postgres:16-alpine`, volume `postgres_data`, сеть `data` |
-| pgAdmin | `dpage/pgadmin4:8`, профиль `tools`, `127.0.0.1:5050` |
-| Watchtower | `containrrr/watchtower:1.7.1`, только контейнеры с label |
-| Локальный Registry | `registry:2.8`, htpasswd, TLS на `registry.aillix.ru` |
-| Backend закомментирован | блок `backend` в compose и `location /api/` в Nginx |
-| `.env` | `.env.example` со всеми переменными |
-| `create-user.sh` | `scripts/create-user.sh` |
-| Внешний registry | `docker login registry.aillix.ru` |
-| Изоляция | сети `edge`, `data` (internal), `registry` |
-| API/DB только внутри | порты 8000/5432 не публикуются |
+| Блок | Что добавлено | Документ |
+|---|---|---|
+| 1 | Docker Compose: Nginx, PostgreSQL, pgAdmin, Watchtower, Registry | [docs/homework/block-1.md](docs/homework/block-1.md) |
+| 2 | FastAPI: модели, CRUD, роуты, услуги с вилкой цен, форма на API | [docs/homework/block-2.md](docs/homework/block-2.md) |
+| 3 | JWT-админка, CRUD услуг, метрики, heatmap, скоринг | в разработке |
+
+## Архитектура
 
 ```
-Internet → host Nginx :443 → 127.0.0.1:8080 → nginx → web (Next.js :3000)
-registry.aillix.ru → host Nginx :443 → 127.0.0.1:5000 → registry
-postgres :5432 — только сеть data (internal)
+Internet → host Nginx :443 → 127.0.0.1:8080 → nginx
+                                               ├── /      → web (Next.js)
+                                               └── /api/  → backend (FastAPI)
+                                                              │
+                                                              ▼
+                                                         postgres (data, internal)
 ```
+
+Сети: `edge` (nginx, web, backend), `data` (backend, postgres, pgAdmin),
+`registry`. Порты 5432, 8000, 5050, 5000 наружу не публикуются.
 
 ## Быстрый старт
 
 ```bash
 cd ai-studio
-cp .env.example .env && chmod 600 .env
-docker compose config -q
+cp .env.example .env
 docker compose up -d --build
-docker compose --profile tools up -d
-curl -fsS http://127.0.0.1:8080/healthz
+curl http://127.0.0.1:8080/healthz
+curl http://127.0.0.1:8080/api/health
 ```
 
 ## Фронтенд
@@ -50,7 +48,6 @@ npm run dev
 
 | Скрипт | Что делает |
 |---|---|
-| `npm run dev` | Dev-сервер с Turbopack |
 | `npm run build` | Прод-сборка (`.next/standalone`) |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
@@ -58,36 +55,47 @@ npm run dev
 
 ## Почему Next.js, а не Vite
 
-Сайт использует SSR, метаданные, sitemap и серверные запросы. Vite собирает SPA
-в `dist` и потребовал бы переписать роутинг и SEO-слой. Прод-артефакт Next.js —
-`.next/standalone`, он собирается через `npm run build`, поэтому требование к
-сборке выполнено без смены фреймворка.
+Сайт использует SSR, метаданные, sitemap и серверные запросы к API. Vite
+собирает SPA в `dist` и потребовал бы переписать роутинг и SEO-слой.
+Прод-артефакт Next.js — `.next/standalone`, он собирается через `npm run build`.
 
-## Переменные окружения
+## Backend
 
-Полный список — в [.env.example](.env.example). Критичные для Блока 1:
-
-```env
-POSTGRES_DB=aillix
-POSTGRES_USER=aillix
-POSTGRES_PASSWORD=...
-PGADMIN_DEFAULT_EMAIL=admin@aillix.ru
-PGADMIN_DEFAULT_PASSWORD=...
-REGISTRY_HOST=registry.aillix.ru
-REGISTRY_HTTP_SECRET=...
+```
+backend/app/
+├── api/routes/   # health, services, applications, metrics, auth, admin
+├── core/         # config, db, security
+├── crud/         # доступ к данным
+├── models/       # Service, Application, BehaviorMetric, Admin
+├── schemas/      # Pydantic-контракты
+└── services/scoring.py
 ```
 
-## Пользователи
+Модели: `Service` (вилка `price_min`/`price_max`, срок, `is_active`),
+`Application` (контакты, квалификация, скор, статус), `BehaviorMetric`
+(события, нормализованные координаты), `Admin` (JWT-доступ).
 
-```bash
-./scripts/create-user.sh registry deploy   # htpasswd для Registry
-./scripts/create-user.sh db readonly       # роль PostgreSQL только на чтение
-```
+### API
+
+| Метод | Путь | Доступ |
+|---|---|---|
+| GET | `/api/health` | публично |
+| GET | `/api/services` | публично |
+| POST | `/api/applications` | публично |
+| POST | `/api/metrics` | публично |
+| POST | `/api/auth/login` | публично |
+| GET | `/api/admin/*` | cookie/Bearer |
+
+## Интеграция формы и услуг
+
+- `src/lib/api/services.ts` запрашивает `http://backend:8000/api/services`
+  на сервере с `revalidate: 300`; при сбое используется статический каталог.
+- `src/components/lead/lead-form.tsx` валидирует данные zod-схемой и отправляет
+  их в `POST /api/applications`; бэкенд считает скор и возвращает температуру.
 
 ## Деплой
 
-Фактическая версия сервера — Ubuntu 24.04.4 LTS (в задании 22.04, отличие
-зафиксировано в `docs/homework/block-1.md`).
+Ubuntu 24.04.4 LTS. Схема — host Nginx (TLS) + контейнерный Nginx на loopback.
 
 ```bash
 git clone <repo-url> /opt/aillix
@@ -97,10 +105,14 @@ docker compose up -d --build
 sudo cp deploy/nginx.conf /etc/nginx/sites-available/aillix
 sudo nginx -t && sudo systemctl reload nginx
 sudo certbot --nginx -d aillix.ru -d www.aillix.ru
-sudo certbot --nginx -d registry.aillix.ru
 ```
 
-## Документация блоков
+Логи backend: `docker logs -f aillix-backend`.
 
-- [Блок 1](docs/homework/block-1.md) — инфраструктура.
-- Блок 2 и Блок 3 добавляются отдельными коммитами и тегами `hw-2`, `hw-3`.
+## Проверки
+
+```bash
+npm run lint && npm run typecheck && npm run test && npm run build
+docker compose config -q
+python -m compileall backend/app
+```

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { GlowCard } from "@/components/ui/glow-card";
 import { SERVICES } from "@/lib/content";
+import type { ServiceOffer } from "@/types";
 import { cn } from "@/lib/utils";
 
 const ACCENTS = {
@@ -18,7 +19,7 @@ const ACCENTS = {
   rose: "border-rose-500/25 bg-rose-500/10 text-rose-700 dark:text-rose-300",
 } as const;
 
-export function Services() {
+export function Services({ services = SERVICES }: { services?: ServiceOffer[] }) {
   return (
     <Section id="services" labelledBy="services-title">
       <div
@@ -47,7 +48,7 @@ export function Services() {
         </Reveal>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {SERVICES.map((service, index) => (
+          {services.map((service, index) => (
             <Reveal
               key={service.id}
               delay={(index % 3) * 0.06}

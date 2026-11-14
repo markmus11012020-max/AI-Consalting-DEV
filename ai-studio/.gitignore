@@ -48,3 +48,8 @@ deploy/registry/*.key
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+__pycache__/
+*.py[cod]
+.venv/

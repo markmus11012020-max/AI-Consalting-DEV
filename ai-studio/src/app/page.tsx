@@ -11,9 +11,13 @@ import { TradingBots } from "@/components/sections/trading-bots";
 import { Trust } from "@/components/sections/trust";
 import { SectionDivider } from "@/components/layout/section";
 import { AGENT_USE_CASE, FAQ, SERVICES, USE_CASES } from "@/lib/content";
+import { getServices } from "@/lib/api/services";
 import { SITE } from "@/lib/site";
 
-export default function Home() {
+export default async function Home() {
+  const services = await getServices();
+  const displayServices = services.length > 0 ? services : SERVICES;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
@@ -54,7 +58,7 @@ export default function Home() {
         hasOfferCatalog: {
           "@type": "OfferCatalog",
           name: "Направления внедрения ИИ",
-          itemListElement: [...USE_CASES, AGENT_USE_CASE, ...SERVICES].map(
+          itemListElement: [...USE_CASES, AGENT_USE_CASE, ...displayServices].map(
             (item) => ({
               "@type": "Offer",
               itemOffered: {
@@ -92,7 +96,7 @@ export default function Home() {
       <SectionDivider />
       <PainPoints />
       <SectionDivider />
-      <Services />
+      <Services services={displayServices} />
       <SectionDivider />
       <Cases />
       <SectionDivider />

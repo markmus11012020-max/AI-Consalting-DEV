@@ -11,14 +11,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ESTIMATE_EVENT, ESTIMATE_SUMMARY_KEY } from "@/lib/estimate";
-import { leadSchema, toFieldErrors } from "@/lib/lead/schema";
+import {
+  BUDGET_OPTIONS,
+  COMPANY_SIZE_OPTIONS,
+  DEADLINE_OPTIONS,
+  ROLE_OPTIONS,
+  detectContactType,
+  leadSchema,
+  toFieldErrors,
+} from "@/lib/lead/schema";
+import { getSessionId, trackEvent } from "@/lib/metrics/client";
 import { SITE } from "@/lib/site";
-import type { LeadActionResult, LeadField } from "@/types";
+import type { LeadField } from "@/types";
 import { cn } from "@/lib/utils";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-const EMPTY_VALUES = { name: "", contact: "", message: "" };
+const EMPTY_VALUES = {
+  name: "",
+  contact: "",
+  message: "",
+  businessType: "business" as "personal" | "business",
+  companySize: "" as "" | "solo" | "small" | "medium" | "enterprise",
+  role: "" as "" | "owner" | "ceo" | "head" | "manager" | "specialist",
+  budget: "",
+  deadlineDays: "",
+  taskVolume: "1",
+};
+
+const SELECT_CLASS =
+  "mt-1.5 h-11 w-full rounded-xl border border-border bg-card px-3 text-[14.5px] text-foreground focus-visible:border-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30";
 
 export function LeadForm() {
   const [values, setValues] = useState(EMPTY_VALUES);
@@ -29,6 +51,7 @@ export function LeadForm() {
   const [formError, setFormError] = useState<string | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [estimateSummary, setEstimateSummary] = useState<string | null>(null);
+  const [priority, setPriority] = useState<"hot" | "warm" | "cold" | null>(null);
   const successRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -69,16 +92,18 @@ export function LeadForm() {
   }, [status]);
 
   const updateField =
-    (field: "name" | "contact" | "message") =>
+    (field: keyof typeof EMPTY_VALUES) =>
     (
-      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      event: React.ChangeEvent<
+        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+      >,
     ) => {
       const value = event.target.value;
       setValues((current) => ({ ...current, [field]: value }));
       setErrors((current) => {
-        if (!current[field]) return current;
+        if (!current[field as LeadField]) return current;
         const next = { ...current };
-        delete next[field];
+        delete next[field as LeadField];
         return next;
       });
     };
@@ -91,6 +116,10 @@ export function LeadForm() {
 
     const payload = {
       ...values,
+      budget: values.budget === "" ? undefined : Number(values.budget),
+      deadlineDays:
+        values.deadlineDays === "" ? undefined : Number(values.deadlineDays),
+      taskVolume: Number(values.taskVolume) || 1,
       consent,
       estimate: estimateSummary ?? "",
       utm,
@@ -109,16 +138,44 @@ export function LeadForm() {
     setErrors({});
     setStatus("submitting");
 
+    const data = parsed.data;
+    const messageParts = [data.message];
+    if (data.estimate) messageParts.push(`Конфигурация: ${data.estimate}`);
+
+    const apiPayload = {
+      name: data.name,
+      contact: data.contact,
+      contact_type: detectContactType(data.contact),
+      message: messageParts.join("\n\n").slice(0, 4000),
+      business_type: data.businessType,
+      company_size: data.companySize,
+      role: data.role,
+      budget: data.budget && data.budget > 0 ? data.budget : undefined,
+      deadline_days: data.deadlineDays,
+      task_volume: data.taskVolume,
+      services: data.estimate ? ["calculator"] : [],
+      source: "site",
+      page: typeof window === "undefined" ? "/" : window.location.pathname,
+      utm: data.utm,
+      session_id: getSessionId(),
+      consent: data.consent,
+    };
+
     try {
-      const response = await fetch("/api/lead", {
+      const response = await fetch("/api/applications", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(parsed.data),
+        body: JSON.stringify(apiPayload),
       });
 
-      const result = (await response.json()) as LeadActionResult;
-
-      if (result.ok) {
+      if (response.status === 201) {
+        const result = (await response.json()) as {
+          public_id: string;
+          score: number;
+          temperature: "hot" | "warm" | "cold";
+        };
+        trackEvent("submit", { meta: { public_id: result.public_id } });
+        setPriority(result.temperature);
         setStatus("success");
         setValues(EMPTY_VALUES);
         setConsent(false);
@@ -128,10 +185,18 @@ export function LeadForm() {
         return;
       }
 
+      const problem = (await response.json().catch(() => null)) as
+        | { detail?: string | Array<{ msg?: string }> }
+        | null;
+      const detail =
+        typeof problem?.detail === "string"
+          ? problem.detail
+          : problem?.detail?.[0]?.msg ??
+            "Не удалось отправить заявку. Попробуйте позже.";
+
       setStatus("error");
-      setErrors(result.fieldErrors ?? {});
-      setFormError(result.formError ?? "Не удалось отправить заявку");
-      toast.error(result.formError ?? "Не удалось отправить заявку");
+      setFormError(detail);
+      toast.error(detail);
     } catch (error) {
       console.error("[lead] submit failed", error);
       setStatus("error");
@@ -163,6 +228,19 @@ export function LeadForm() {
           Ответим в течение рабочего дня. Если задача срочная — напишите в
           Telegram, так быстрее.
         </p>
+
+        {priority ? (
+          <p className="mt-4 rounded-xl border border-border bg-card/60 px-3 py-2 text-[13px] text-muted-foreground">
+            Приоритет обращения:{" "}
+            <span className="font-semibold text-foreground">
+              {priority === "hot"
+                ? "высокий — свяжемся в течение часа"
+                : priority === "warm"
+                  ? "обычный — ответим в течение рабочего дня"
+                  : "стандартный — ответим в порядке очереди"}
+            </span>
+          </p>
+        ) : null}
 
         <div className="mt-6 flex flex-col gap-2.5 sm:flex-row">
           <Button asChild variant="secondary">
@@ -284,6 +362,114 @@ export function LeadForm() {
             </p>
           )}
         </div>
+
+        <fieldset className="rounded-xl border border-border bg-muted/30 p-3.5">
+          <legend className="px-1 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+            О задаче
+          </legend>
+
+          <div className="mt-1 grid gap-3 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <Label htmlFor="lead-business">Для кого задача</Label>
+              <select
+                id="lead-business"
+                name="businessType"
+                value={values.businessType}
+                onChange={updateField("businessType")}
+                className={SELECT_CLASS}
+              >
+                <option value="business">Для бизнеса</option>
+                <option value="personal">Личная задача</option>
+              </select>
+            </div>
+
+            <div>
+              <Label htmlFor="lead-company-size">Размер команды</Label>
+              <select
+                id="lead-company-size"
+                name="companySize"
+                value={values.companySize}
+                onChange={updateField("companySize")}
+                className={SELECT_CLASS}
+              >
+                {COMPANY_SIZE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <Label htmlFor="lead-role">Ваша роль</Label>
+              <select
+                id="lead-role"
+                name="role"
+                value={values.role}
+                onChange={updateField("role")}
+                className={SELECT_CLASS}
+              >
+                {ROLE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <Label htmlFor="lead-budget">Бюджет</Label>
+              <select
+                id="lead-budget"
+                name="budget"
+                value={values.budget}
+                onChange={updateField("budget")}
+                className={SELECT_CLASS}
+              >
+                {BUDGET_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <Label htmlFor="lead-deadline">Когда нужно</Label>
+              <select
+                id="lead-deadline"
+                name="deadlineDays"
+                value={values.deadlineDays}
+                onChange={updateField("deadlineDays")}
+                className={SELECT_CLASS}
+              >
+                <option value="">Не выбрано</option>
+                {DEADLINE_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <Label htmlFor="lead-tasks">Сколько задач закрыть</Label>
+              <select
+                id="lead-tasks"
+                name="taskVolume"
+                value={values.taskVolume}
+                onChange={updateField("taskVolume")}
+                className={SELECT_CLASS}
+              >
+                {[1, 2, 3, 4, 5].map((count) => (
+                  <option key={count} value={String(count)}>
+                    {count === 5 ? "5 и более" : String(count)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </fieldset>
 
         <div>
           <div className="flex items-baseline justify-between gap-3">
