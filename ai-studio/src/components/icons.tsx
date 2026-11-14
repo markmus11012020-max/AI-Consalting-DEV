@@ -14,6 +14,9 @@ import {
   Headset,
   Receipt,
   Users,
+  Sparkles,
+  GraduationCap,
+  Briefcase,
   type LucideIcon,
 } from "lucide-react";
 
@@ -35,6 +38,9 @@ const ICONS: Record<IconName, LucideIcon> = {
   headset: Headset,
   receipt: Receipt,
   users: Users,
+  sparkles: Sparkles,
+  "graduation-cap": GraduationCap,
+  briefcase: Briefcase,
 };
 
 export function Icon({

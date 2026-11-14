@@ -1,6 +1,8 @@
 import type {
   ExpertiseGroup,
   FaqItem,
+  HeroCapability,
+  LaunchStage,
   PainPoint,
   ProcessStep,
   ProjectCase,
@@ -9,6 +11,65 @@ import type {
   TrustItem,
   UseCase,
 } from "@/types";
+
+export const HERO_CAPABILITIES: HeroCapability[] = [
+  {
+    id: "assistant",
+    title: "Личный ассистент",
+    description:
+      "Поиск информации, планирование дел и контроль финансов — в одном диалоге.",
+    icon: "sparkles",
+    accent: "indigo",
+  },
+  {
+    id: "study",
+    title: "Помощь в работе и учебе",
+    description:
+      "Анализ документов, конспекты и генерация текстов без ручной рутины.",
+    icon: "graduation-cap",
+    accent: "teal",
+  },
+  {
+    id: "business",
+    title: "Для бизнеса",
+    description:
+      "Автоответы клиентам, торговые боты и интеграция с CRM.",
+    icon: "briefcase",
+    accent: "indigo",
+  },
+  {
+    id: "security",
+    title: "Удобство и защита",
+    description:
+      "Запуск в Telegram или веб-версии, полное обучение работе.",
+    icon: "shield",
+    accent: "teal",
+  },
+];
+
+export const LAUNCH_STAGES: LaunchStage[] = [
+  {
+    id: "basic",
+    term: "От 3 до 5 дней",
+    title: "Базовый ассистент",
+    description:
+      "Простой личный помощник в Telegram, бот для ответов на частые вопросы по вашей базе знаний или инструмент для работы с текстами и документами.",
+  },
+  {
+    id: "integrations",
+    term: "От 1 до 2 недель",
+    title: "Агент с интеграциями",
+    description:
+      "Помощник, подключенный к таблицам, календарям, почте, CRM-системе или платежным сервисам.",
+  },
+  {
+    id: "complex",
+    term: "От 2 до 4 недель",
+    title: "Сложные системы",
+    description:
+      "Индивидуальные торговые боты, мультиагентные связки, сложная аналитика и кастомные веб-сервисы.",
+  },
+];
 
 export const HERO_PIPELINE = [
   {

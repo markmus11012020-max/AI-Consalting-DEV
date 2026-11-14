@@ -13,7 +13,25 @@ export type IconName =
   | "target"
   | "headset"
   | "receipt"
-  | "users";
+  | "users"
+  | "sparkles"
+  | "graduation-cap"
+  | "briefcase";
+
+export interface HeroCapability {
+  id: string;
+  title: string;
+  description: string;
+  icon: IconName;
+  accent: "indigo" | "teal";
+}
+
+export interface LaunchStage {
+  id: string;
+  term: string;
+  title: string;
+  description: string;
+}
 
 export interface NavItem {
   id: string;
