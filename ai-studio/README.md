@@ -206,6 +206,26 @@ sudo certbot --nginx -d aillix.ru -d www.aillix.ru
 sudo certbot --nginx -d registry.aillix.ru
 ```
 
+Порядок важен: файл `deploy/nginx.conf` содержит блок `registry.aillix.ru` с
+сертификатом, поэтому при первом развёртывании сначала ставят конфиг без этого
+блока, выпускают сертификат (`certbot certonly --webroot -w /var/www/certbot
+-d registry.aillix.ru`), и только потом копируют полный файл и делают `reload`.
+
+### Факт развёртывания (14.11.2026)
+
+| Проверка | Результат |
+|---|---|
+| `https://aillix.ru/` | 200, новая версия лендинга |
+| `https://aillix.ru/admin` | 200, форма входа |
+| `GET /api/health` | `{"status":"ok","service":"aillix-api"}` |
+| `GET /api/services` | 6 услуг из PostgreSQL |
+| Демо-заявки | 4 hot / 3 warm / 3 cold, средний скор 58.9 |
+| Метрики | 85 точек курсора, 54 ячейки heatmap |
+| Внешний `docker login registry.aillix.ru` | `Login Succeeded` |
+| `push` в Registry | `aillix-web` в `/v2/_catalog` |
+| Порты 3000/5000/5050/5432/8000/8080 снаружи | refused/filtered |
+| `ufw` | allow 22, 80, 443; default deny incoming |
+
 ### Локальный Registry
 
 ```bash
