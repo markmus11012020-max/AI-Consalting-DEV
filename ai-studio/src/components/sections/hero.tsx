@@ -62,12 +62,11 @@ export function Hero() {
             <Reveal delay={0.06}>
               <h1
                 id="hero-title"
-                className="mt-6 text-[2.1rem] font-bold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-[2.75rem] lg:text-[3.4rem]"
+                className="mt-6 text-balance text-[1.95rem] font-bold leading-[1.12] tracking-[-0.03em] text-foreground sm:text-[2.5rem] lg:text-[2.7rem]"
               >
-                Персональные ИИ-агенты:{" "}
-                <span className="text-gradient-ai">
-                  заберут рутину, сэкономят бюджет, увеличат прибыль и вернут
-                  время для жизни
+                Персональные ИИ-агенты:
+                <span className="mt-1 block text-gradient-ai">
+                  меньше рутины, больше времени и прибыли
                 </span>
               </h1>
             </Reveal>
@@ -79,8 +78,8 @@ export function Hero() {
                 <LaunchTimelineDialog>
                   (зависит от объема проекта)
                 </LaunchTimelineDialog>
-                . Работают в привычных мессенджерах и обеспечивают анонимность
-                данных.
+                . Помогают сэкономить бюджет, работают в привычных мессенджерах
+                и обеспечивают анонимность данных.
               </p>
             </Reveal>
 
