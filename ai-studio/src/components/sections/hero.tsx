@@ -62,7 +62,7 @@ export function Hero() {
             <Reveal delay={0.06}>
               <h1
                 id="hero-title"
-                className="mt-6 text-balance text-[1.95rem] font-bold leading-[1.12] tracking-[-0.03em] text-foreground sm:text-[2.5rem] lg:text-[2.7rem]"
+                className="mt-6 text-balance text-[1.7rem] font-bold leading-[1.12] tracking-[-0.03em] text-foreground sm:text-[2.5rem] lg:text-[2.7rem]"
               >
                 Персональные ИИ-агенты:
                 <span className="mt-1 block text-gradient-ai">
