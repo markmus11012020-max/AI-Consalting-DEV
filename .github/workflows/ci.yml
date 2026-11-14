@@ -15,7 +15,7 @@ jobs:
       NEXT_PUBLIC_SITE_URL: https://aillix.ru
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -66,7 +66,7 @@ jobs:
       COOKIE_SECURE: "false"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Validate compose
         run: docker compose --env-file ai-studio/.env.example -f ai-studio/docker-compose.yml config -q
