@@ -2,6 +2,7 @@
 
 from functools import lru_cache
 
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -25,9 +26,18 @@ class Settings(BaseSettings):
     admin_email: str = ""
     admin_password: str = ""
 
-    cors_origins: str = "https://aillix.ru"
-    docs_enabled: bool = False
-    log_level: str = "INFO"
+    cors_origins: str = Field(
+        default="https://aillix.ru",
+        validation_alias=AliasChoices("BACKEND_CORS_ORIGINS", "CORS_ORIGINS"),
+    )
+    docs_enabled: bool = Field(
+        default=False,
+        validation_alias=AliasChoices("BACKEND_DOCS_ENABLED", "DOCS_ENABLED"),
+    )
+    log_level: str = Field(
+        default="INFO",
+        validation_alias=AliasChoices("BACKEND_LOG_LEVEL", "LOG_LEVEL"),
+    )
 
     @property
     def cors_origin_list(self) -> list[str]:
