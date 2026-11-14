@@ -3,6 +3,7 @@ import { Geist_Mono, Inter, Manrope } from "next/font/google";
 
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
+import { BehaviorTracker } from "@/components/analytics/behavior-tracker";
 import { MotionProvider } from "@/components/motion/motion-provider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeToaster } from "@/components/theme/theme-toaster";
@@ -112,6 +113,7 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
+            <BehaviorTracker />
           </MotionProvider>
         </ThemeProvider>
 

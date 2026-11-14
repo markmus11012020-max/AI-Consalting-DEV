@@ -38,3 +38,57 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-studio/backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: aillix_test
+          POSTGRES_USER: aillix
+          POSTGRES_PASSWORD: aillix
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U aillix -d aillix_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://aillix:aillix@localhost:5432/aillix_test
+      JWT_SECRET: ci-only-secret
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_PASSWORD: ci-admin-password
+      COOKIE_SECURE: "false"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: ai-studio/backend/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Compile
+        run: python -m compileall -q app
+
+      - name: Import app
+        run: python -c "from app.main import app; print(app.title)"
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate compose
+        run: docker compose --env-file ai-studio/.env.example -f ai-studio/docker-compose.yml config -q

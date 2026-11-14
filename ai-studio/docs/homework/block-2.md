@@ -15,7 +15,7 @@ Next.js больше не отправляет заявку в JSONL: она в�
 уходит в `POST /api/applications`, где сохраняется в PostgreSQL и сразу получает
 скоринг. Сборка фронтенда выполняется командой `npm run build`
 (`output: "standalone"`), Nginx проксирует `/api/` в контейнер `backend`, а
-логи смотрятся через `docker logs -f aillix-backend`.
+логи смотрятся через `docker logs -f backend`.
 
 ## Модель данных
 
