@@ -274,7 +274,10 @@ export function ApplicationsPanel() {
                         </p>
                         <ul className="mt-2 space-y-1.5 text-[13px]">
                           {Object.entries(item.score_breakdown)
-                            .filter(([, value]) => typeof value === "number")
+                            .filter(
+                              ([key, value]) =>
+                                typeof value === "number" && key !== "total",
+                            )
                             .map(([key, value]) => (
                               <li
                                 key={key}
