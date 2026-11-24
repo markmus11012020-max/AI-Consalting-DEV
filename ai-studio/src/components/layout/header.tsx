@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X } from "lucide-react";
 
 import { MobileNav } from "@/components/layout/mobile-nav";
@@ -13,6 +15,7 @@ import { cn } from "@/lib/utils";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
   const activeId = useActiveSection(SECTION_IDS);
 
   useEffect(() => {
@@ -32,8 +35,8 @@ export function Header() {
       )}
     >
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:h-[72px] sm:px-8">
-        <a
-          href="#top"
+        <Link
+          href="/"
           className="group flex items-center gap-2.5 rounded-xl outline-none"
           aria-label="Aillix — на главную"
         >
@@ -45,15 +48,18 @@ export function Header() {
           <span className="font-display text-[17px] font-bold tracking-[0.08em] text-foreground">
             Aillix<span className="text-primary">.</span>
           </span>
-        </a>
+        </Link>
 
         <nav aria-label="Основная навигация" className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {HEADER_NAV.map((item) => {
-              const isActive = activeId === item.id;
+              const isRoute = !item.href.includes("#");
+              const isActive = isRoute
+                ? pathname === item.href
+                : activeId === item.id;
               return (
                 <li key={item.id}>
-                  <a
+                  <Link
                     href={item.href}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
@@ -70,7 +76,7 @@ export function Header() {
                         className="absolute inset-x-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-primary to-transparent"
                       />
                     ) : null}
-                  </a>
+                  </Link>
                 </li>
               );
             })}
@@ -85,10 +91,10 @@ export function Header() {
             size="sm"
             className="hidden h-9 px-4 text-[14.5px] sm:inline-flex"
           >
-            <a href="#contact">
+            <Link href="/#contact">
               Обсудить проект
               <ArrowRight className="h-3.5 w-3.5" />
-            </a>
+            </Link>
           </Button>
 
           <button

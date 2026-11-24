@@ -66,6 +66,11 @@ export interface UseCase {
   result: string;
 }
 
+export interface ProjectMetric {
+  value: string;
+  label: string;
+}
+
 export interface ProjectCase {
   id: string;
   title: string;
@@ -78,6 +83,10 @@ export interface ProjectCase {
   icon: IconName;
   accent: "indigo" | "purple" | "teal" | "amber";
   href?: string;
+  hrefLabel?: string;
+  badge?: string;
+  featured?: boolean;
+  metrics?: ProjectMetric[];
 }
 
 export interface ServiceOffer {

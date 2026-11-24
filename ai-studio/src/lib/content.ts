@@ -95,7 +95,7 @@ export const HERO_PIPELINE = [
 ] as const;
 
 export const HERO_PROOF = [
-  { value: "6", label: "реализованных систем" },
+  { value: "7", label: "реализованных систем" },
   { value: "180+", label: "автотестов в CI" },
   { value: "2–4", label: "недели до MVP" },
   { value: "RU", label: "контур и ФЗ-152" },
@@ -323,6 +323,35 @@ export const AGENT_USE_CASE: UseCase = {
 };
 
 export const PROJECTS: ProjectCase[] = [
+  {
+    id: "call-pilot",
+    title: "Call-Pilot — AI-постобработка и QA звонков",
+    category: "AI-операции / HITL",
+    icon: "headset",
+    accent: "teal",
+    featured: true,
+    badge: "продукт Aillix",
+    summary:
+      "AI заполняет карточку звонка, оператор подтверждает, CRM получает финальную версию. QA проверяет 100% звонков, а не 2–5%.",
+    result:
+      "100% QA, 10 критериев в каждом звонке, 0,27 ₽ за разбор и пилот за 2 недели.",
+    href: "https://call-pilot.ru",
+    hrefLabel: "Открыть сайт",
+    metrics: [
+      { value: "100%", label: "звонков проходят разбор" },
+      { value: "10", label: "критериев QA в каждом звонке" },
+      { value: "0,27 ₽", label: "стоимость AI-разбора" },
+      { value: "2 недели", label: "до первых цифр на пилоте" },
+    ],
+    highlights: [
+      "HITL: AI не пишет в CRM без подтверждения оператора",
+      "10 критериев QA, critical/high, auto-pass и очередь исключений",
+      "PII-маскирование до LLM, аудит решений и on-prem для пилота",
+      "Интеграции: Oktell, Bitrix24, amoCRM, API и выгрузки",
+    ],
+    stack: ["FastAPI", "DeepSeek", "PostgreSQL", "Docker"],
+    flow: ["Call", "Transcript", "AI card", "HITL", "CRM", "QA"],
+  },
   {
     id: "fintech-orchestrator",
     title: "FinTech Compliance AI-Orchestrator",

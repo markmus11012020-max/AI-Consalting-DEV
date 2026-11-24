@@ -54,6 +54,8 @@ export default async function Home() {
           "Spring Boot",
           "ФЗ-152",
           "ФЗ-115",
+          "QA звонков",
+          "Human-in-the-loop",
         ],
         hasOfferCatalog: {
           "@type": "OfferCatalog",

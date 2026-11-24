@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, m } from "framer-motion";
 import { ArrowRight, Mail, Phone, Send, X } from "lucide-react";
 
@@ -14,6 +16,8 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
+  const pathname = usePathname();
+
   useEffect(() => {
     if (!open) return;
 
@@ -47,10 +51,12 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
               <nav aria-label="Мобильная навигация">
                 <ul className="flex flex-col gap-1">
                   {NAV.map((item) => {
-                    const isActive = activeId === item.id;
+                    const isActive = !item.href.includes("#")
+                      ? pathname === item.href
+                      : activeId === item.id;
                     return (
                       <li key={item.id}>
-                        <a
+                        <Link
                           href={item.href}
                           onClick={onClose}
                           className={`flex items-center justify-between rounded-xl px-3 py-3 text-[16px] transition-colors ${
@@ -61,7 +67,7 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
                         >
                           {item.label}
                           <ArrowRight className="h-4 w-4 opacity-40" />
-                        </a>
+                        </Link>
                       </li>
                     );
                   })}
@@ -105,10 +111,10 @@ export function MobileNav({ open, onClose, activeId }: MobileNavProps) {
 
               <div className="mt-auto pt-8">
                 <Button asChild size="lg" className="w-full">
-                  <a href="#contact" onClick={onClose}>
+                  <Link href="/#contact" onClick={onClose}>
                     Обсудить проект
                     <ArrowRight className="h-4 w-4" />
-                  </a>
+                  </Link>
                 </Button>
 
                 <button

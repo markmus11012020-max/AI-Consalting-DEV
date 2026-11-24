@@ -53,6 +53,9 @@ export const metadata: Metadata = {
     "разработка MVP",
     "ФЗ-152",
     "внедрение ИИ под ключ",
+    "Call-Pilot",
+    "QA звонков",
+    "HITL",
   ],
   alternates: {
     canonical: "/",

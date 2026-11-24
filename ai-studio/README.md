@@ -278,3 +278,14 @@ npm run lint && npm run typecheck && npm run test && npm run build
 docker compose config -q
 python -m compileall backend/app
 ```
+
+## Страница `/about`
+
+Публичный HR-профиль основателя: `/about` в Next.js, SEO-метаданные,
+JSON-LD `Person` / `ProfilePage` и OG-картинка. PDF и DOCX для скачивания
+лежат в `public/about/`. Пункт «Обо мне» добавлен в шапку и подвал.
+Кейс Call-Pilot вынесен первым в секцию «Кейсы» как featured-карточка.
+
+Данные страницы — `src/lib/about.ts`, компоненты — `src/components/about/`.
+PDF/DOCX собираются из `D:\HR профиль Мусиной Гульназ\content.json`
+скриптом `build.py` и копируются в `public/about/`.

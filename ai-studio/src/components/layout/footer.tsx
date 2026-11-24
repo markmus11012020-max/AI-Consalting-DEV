@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Code2, Mail, Phone, Send } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
@@ -16,7 +17,7 @@ export function Footer() {
       <Container className="py-14">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
-            <a href="#top" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-2.5">
               <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-accent">
                 <span className="font-display text-[18px] font-extrabold text-white">
                   A
@@ -25,7 +26,7 @@ export function Footer() {
               <span className="font-display text-[17px] font-bold tracking-[0.08em] text-foreground">
                 Aillix<span className="text-primary">.</span>
               </span>
-            </a>
+            </Link>
 
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {SITE.company.legalName} — {SITE.company.role}. Внедряем
@@ -64,12 +65,12 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5 text-sm">
               {NAV.map((item) => (
                 <li key={item.id}>
-                  <a
+                  <Link
                     href={item.href}
                     className="text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

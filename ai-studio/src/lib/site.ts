@@ -27,17 +27,20 @@ export const SITE = {
 } as const;
 
 export const NAV: NavItem[] = [
-  { id: "services", label: "Услуги", href: "#services" },
-  { id: "cases", label: "Кейсы", href: "#cases" },
-  { id: "trading", label: "Торговые боты", href: "#trading" },
-  { id: "calculator", label: "Калькулятор", href: "#calculator" },
-  { id: "tech", label: "Технологии", href: "#tech" },
-  { id: "faq", label: "FAQ", href: "#faq" },
-  { id: "contact", label: "Контакты", href: "#contact" },
+  { id: "services", label: "Услуги", href: "/#services" },
+  { id: "cases", label: "Кейсы", href: "/#cases" },
+  { id: "trading", label: "Торговые боты", href: "/#trading" },
+  { id: "calculator", label: "Калькулятор", href: "/#calculator" },
+  { id: "tech", label: "Технологии", href: "/#tech" },
+  { id: "about", label: "Обо мне", href: "/about" },
+  { id: "faq", label: "FAQ", href: "/#faq" },
+  { id: "contact", label: "Контакты", href: "/#contact" },
 ];
 
 export const HEADER_NAV: NavItem[] = NAV.filter((item) =>
-  ["services", "cases", "trading", "calculator", "tech"].includes(item.id),
+  ["services", "cases", "trading", "calculator", "tech", "about"].includes(
+    item.id,
+  ),
 );
 
 export const SECTION_IDS = [
