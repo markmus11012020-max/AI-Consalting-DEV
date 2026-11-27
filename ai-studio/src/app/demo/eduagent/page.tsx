@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 const metrics = [
   { value: "108", label: "функциональных требований в ТЗ" },
   { value: "10", label: "backend-тестов в CI" },
-  { value: "hit@5 1.0", label: "на демо-golden set" },
+  { value: "1.0", label: "hit@5 на демо-golden set" },
   { value: "4", label: "LLM-провайдера в одном шлюзе" },
 ];
 
