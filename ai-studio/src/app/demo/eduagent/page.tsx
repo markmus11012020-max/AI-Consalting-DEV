@@ -24,6 +24,7 @@ import { Tag } from "@/components/ui/tag";
 import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
+const LIVE_DEMO_URL = "https://eduagent.91.224.87.62.sslip.io";
 const title = "EduAgent — демонстрация AI-слоя для СДО";
 const description =
   "Как работает EduAgent: RAG-ассистент с цитатами, генерация тестов и презентаций, HITL-проверка преподавателем, Moodle, аналитика и eval.";
@@ -263,12 +264,8 @@ export default function EduAgentDemoPage() {
               </p>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Button asChild size="lg">
-                  <a
-                    href="https://github.com/markmus11012020-max/EduAgent"
-                    target="_blank"
-                    rel="noreferrer noopener"
-                  >
-                    Открыть код на GitHub
+                  <a href={LIVE_DEMO_URL} target="_blank" rel="noreferrer noopener">
+                    Открыть живой стенд
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </Button>
@@ -276,6 +273,16 @@ export default function EduAgentDemoPage() {
                   <a href="#scenario">
                     Смотреть сценарий
                     <ArrowRight className="h-4 w-4" />
+                  </a>
+                </Button>
+                <Button asChild variant="ghost" size="lg">
+                  <a
+                    href="https://github.com/markmus11012020-max/EduAgent"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    GitHub
+                    <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </Button>
               </div>
@@ -532,6 +539,12 @@ export default function EduAgentDemoPage() {
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                   <Button asChild>
+                    <a href={LIVE_DEMO_URL} target="_blank" rel="noreferrer noopener">
+                      Открыть живой стенд
+                      <ArrowUpRight className="h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button asChild variant="secondary">
                     <a
                       href="https://github.com/markmus11012020-max/EduAgent"
                       target="_blank"
@@ -541,7 +554,7 @@ export default function EduAgentDemoPage() {
                       <ArrowUpRight className="h-4 w-4" />
                     </a>
                   </Button>
-                  <Button asChild variant="secondary">
+                  <Button asChild variant="ghost">
                     <Link href="/#contact">
                       Обсудить внедрение
                       <ArrowRight className="h-4 w-4" />
