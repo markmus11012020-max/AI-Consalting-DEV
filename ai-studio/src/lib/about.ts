@@ -117,7 +117,7 @@ export const ABOUT_WORKS: ProjectCase[] = [
     category: "Open-source / код",
     icon: "cpu",
     accent: "purple",
-    badge: "44 репозитория",
+    badge: "45 репозиториев",
     summary:
       "Публичные репозитории: FinTech Compliance, Helpdesk AI, SQL Assistant, AI Report Generator, Telegram/VK-боты, MCP и торговые агенты.",
     result:
@@ -154,7 +154,7 @@ export const ABOUT_EXPERIENCE: AboutExperience[] = [
       "Call-Pilot: HITL, 10 критериев QA, 100% покрытие звонков, 0,27 ₽ за разбор.",
       "КликЮрист: маскировка ПДн, проверка источников, PDF, оплата через Robokassa.",
       "Финалист хакатона «Инвест-премаркет» Т-Инвест, ноябрь 2026.",
-      "44 публичных репозитория; FinTech Compliance, Helpdesk AI, SQL Assistant.",
+      "45 публичных репозиториев; FinTech Compliance, Helpdesk AI, SQL Assistant.",
       "Снизила зависимость от LLM-провайдера через Strategy/Factory и graceful fallback.",
     ],
     stack: [
