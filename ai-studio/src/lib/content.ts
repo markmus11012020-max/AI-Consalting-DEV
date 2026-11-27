@@ -363,8 +363,8 @@ export const PROJECTS: ProjectCase[] = [
       "AI-платформа для учебных курсов: RAG-ассистент с цитатами, генерация тестов, заданий и презентаций, проверка преподавателем и интеграция с Moodle.",
     result:
       "Рабочий open-source MVP: 10 backend-тестов в CI, eval hit@5 = 1.0 на демо-наборе и экспорт в Moodle XML/GIFT/DOCX/PPTX.",
-    href: "https://github.com/markmus11012020-max/EduAgent",
-    hrefLabel: "Открыть GitHub",
+    href: "/demo/eduagent",
+    hrefLabel: "Открыть демо",
     metrics: [
       { value: "108", label: "функциональных требований в ТЗ" },
       { value: "10", label: "backend-тестов в CI" },
@@ -408,7 +408,8 @@ export const PROJECTS: ProjectCase[] = [
     summary:
       "Юридический ИИ-сервис: анализ ситуации, чек-лист действий и готовый документ с оплатой по результату.",
     result: "180 автотестов, анонимность данных и оплата только за результат.",
-    href: "https://github.com/markmus11012020-max/CLICKJURIST_RANEPA",
+    href: "https://clickjurist.ru",
+    hrefLabel: "Открыть сайт",
     highlights: [
       "Три стадии: анализ ситуации → чек-лист → готовый документ",
       "Анонимность данных: ПДн заменяются метками до вызова LLM",

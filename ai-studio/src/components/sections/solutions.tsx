@@ -1,4 +1,4 @@
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronRight } from "lucide-react";
 
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -107,10 +107,21 @@ export function Solutions() {
                   </div>
                 </div>
 
-                <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                <div className="mt-auto flex flex-wrap items-center gap-2 pt-5">
                   {project.stack.map((item) => (
                     <Tag key={item}>{item}</Tag>
                   ))}
+                  {project.href ? (
+                    <a
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="ml-auto inline-flex items-center gap-1.5 text-[13.5px] font-medium text-indigo-300 hover:text-indigo-200 hover:underline"
+                    >
+                      {project.hrefLabel ?? "Открыть"}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </a>
+                  ) : null}
                 </div>
               </GlowCard>
             </Reveal>
