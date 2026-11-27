@@ -60,7 +60,7 @@ export const ABOUT_PROFILE = {
   format: "Full-time · удалённо / гибрид / офис",
   experience: "Более 20 лет",
   summary:
-    "AI Product Manager / Product Owner с опытом более 20 лет в финансах, B2B-консалтинге и управлении. Последние 2,5 года создаю AI-продукты: Call-Pilot, КликЮрист и Aillix. Соединяю язык бизнеса и руки разработчика: не обещаю «магию ИИ», а проектирую измеримый процесс с контролем качества, стоимости и данных.",
+    "AI Product Manager / Product Owner с опытом более 20 лет в финансах, B2B-консалтинге и управлении. Последние 2,5 года создаю AI-продукты: Call-Pilot, КликЮрист, Aillix и EduAgent. Соединяю язык бизнеса и руки разработчика: не обещаю «магию ИИ», а проектирую измеримый процесс с контролем качества, стоимости и данных.",
   hackathon:
     "Финалист хакатона «Инвест-премаркет» Т-Инвест, ноябрь 2026",
   pdfHref: "/about/musina-gulnaz-ai-product-manager.pdf",
@@ -110,6 +110,7 @@ export const ABOUT_WORKS: ProjectCase[] = [
     stack: ["Next.js", "FastAPI", "PostgreSQL", "Docker"],
     flow: ["Brand", "Services", "Cases", "Leads"],
   },
+  project("eduagent"),
   {
     id: "github",
     title: "GitHub — инженерная лаборатория",

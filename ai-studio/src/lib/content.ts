@@ -95,7 +95,7 @@ export const HERO_PIPELINE = [
 ] as const;
 
 export const HERO_PROOF = [
-  { value: "7", label: "реализованных систем" },
+  { value: "8", label: "реализованных систем" },
   { value: "180+", label: "автотестов в CI" },
   { value: "2–4", label: "недели до MVP" },
   { value: "RU", label: "контур и ФЗ-152" },
@@ -351,6 +351,34 @@ export const PROJECTS: ProjectCase[] = [
     ],
     stack: ["FastAPI", "DeepSeek", "PostgreSQL", "Docker"],
     flow: ["Call", "Transcript", "AI card", "HITL", "CRM", "QA"],
+  },
+  {
+    id: "eduagent",
+    title: "EduAgent — AI-слой для СДО",
+    category: "EdTech / RAG / HITL",
+    icon: "graduation-cap",
+    accent: "teal",
+    badge: "open-source",
+    summary:
+      "AI-платформа для учебных курсов: RAG-ассистент с цитатами, генерация тестов, заданий и презентаций, проверка преподавателем и интеграция с Moodle.",
+    result:
+      "Рабочий open-source MVP: 10 backend-тестов в CI, eval hit@5 = 1.0 на демо-наборе и экспорт в Moodle XML/GIFT/DOCX/PPTX.",
+    href: "https://github.com/markmus11012020-max/EduAgent",
+    hrefLabel: "Открыть GitHub",
+    metrics: [
+      { value: "108", label: "функциональных требований в ТЗ" },
+      { value: "10", label: "backend-тестов в CI" },
+      { value: "hit@5 1.0", label: "на демо-golden set" },
+      { value: "4", label: "LLM-провайдера в едином шлюзе" },
+    ],
+    highlights: [
+      "RAG-чат с цитатами на страницы и слайды, отказ без контекста и эскалация",
+      "Генерация тестов по Bloom, заданий с рубриками и презентаций PPTX + HITL",
+      "Moodle Web Services, Bitrix24/webhooks и встраиваемый виджет",
+      "OpenAI, Ollama, LM Studio и vLLM через единый шлюз; pgvector + FTS",
+    ],
+    stack: ["FastAPI", "Next.js", "PostgreSQL", "pgvector", "Redis", "Docker"],
+    flow: ["Материалы", "RAG", "Генерация", "HITL", "Экспорт"],
   },
   {
     id: "fintech-orchestrator",
